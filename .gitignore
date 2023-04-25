@@ -1,5 +1,3 @@
-Player/__pycache__/Inventory.cpython-310.pyc
-Items/__pycache__/Weapon.cpython-310.pyc
-.vsode/settings.json
+.vscode
 tempCodeRunnerFile.py
-Items/__pycache__/Healpotion.cpython-310.pyc
+__pycache__
