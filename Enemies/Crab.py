@@ -20,8 +20,11 @@ class Crab:
             self.idCounter=newId
         self.usedIds.append(newId)
 
-    def showEnemy(self):
-        print(self.attributes)
+    def showEnemy(self,type=None):
+        if type=="" or type == None:
+            print(self.attributes)
+        else:
+            print(self.attributes[type])
 
     def updateHP(self,damage: int):
         newHP= self.attributes["hp"] - damage
@@ -31,16 +34,16 @@ class Crab:
         match type:
             case "basic":
                 damageDone=10
-                self.attributes.update({"end":5})
+                newEnd=self.attributes["end"]-5
+                self.attributes.update({"end":newEnd})
                 return damageDone
-
-
-
-
-
-crab=Crab()
-crab.showEnemy()
-crab.updateHP(5)
-pr=crab.attack("basic")
-print(pr)
-crab.showEnemy()
+            case "heavy":
+                damageDone=30
+                newEnd=self.attributes["end"]-10
+                self.attributes.update({"end":newEnd})
+                return damageDone
+            case "light":
+                damageDone=3
+                newEnd=self.attributes["end"]-2
+                self.attributes.update({"end":newEnd})
+                return damageDone

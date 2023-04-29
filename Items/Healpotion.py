@@ -1,7 +1,7 @@
 import random
 
 
-class Potion:
+class HealthPotion:
 
     usedIds = [0]
     idCounter = 0
@@ -11,18 +11,7 @@ class Potion:
         "healing": 0
     }
 
-    def idGenerator(self):
-        newId = random.randint(1, 999)
-        if newId not in self.usedIds:
-            self.idCounter = newId
-        self.usedIds.append(newId)
-
-    def showPotion(self):
-        stats = self.attributes
-        self.deleteObject()
-        return stats
-
-    def newPotion(self, level):
+    def __init__(self, level=1):
         self.idGenerator()
         match level:
             case 1:
@@ -35,6 +24,17 @@ class Potion:
             case 3:
                 self.attributes.update({"healing": 100})
                 self.attributes.update({"name": "Potion LVL 3"})
+
+    def idGenerator(self):
+        newId = random.randint(1, 999)
+        if newId not in self.usedIds:
+            self.idCounter = newId
+        self.usedIds.append(newId)
+
+    def showPotion(self):
+        stats = self.attributes
+        self.deleteObject()
+        return stats
 
     def deleteObject(self):
         self.attributes = ({
