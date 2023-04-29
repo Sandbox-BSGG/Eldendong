@@ -15,10 +15,12 @@ class Crab:
 
 
     def idGenerator(self):
-        newId=random.randint(1,999)
-        if newId not in self.usedIds:
-            self.idCounter=newId
+        newId = len(self.usedIds) + 1
+        while newId in self.usedIds:
+            newId = len(self.usedIds) + 1
+        self.idCounter = newId
         self.usedIds.append(newId)
+        self.attributes["id"] = newId
 
     def showEnemy(self,type=None):
         if type=="" or type == None:
@@ -26,7 +28,7 @@ class Crab:
         else:
             print(self.attributes[type])
 
-    def updateHP(self,damage: int):
+    def takeDamage(self,damage: int):
         newHP= self.attributes["hp"] - damage
         return self.attributes.update({"hp":newHP})
 

@@ -1,7 +1,6 @@
-import random
 
 class Weapon:
-    usedIds=[0]
+    usedIds=[]
     idCounter = 0
     attributes = {
         "id": idCounter,
@@ -20,10 +19,12 @@ class Weapon:
         return self.attributes.update({"name": type})
 
     def idGenerator(self):
-        newId=random.randint(1,999)
-        if newId not in self.usedIds:
-            self.idCounter=newId
-        return self.usedIds.append(newId)
+        newId = len(self.usedIds) + 1
+        while newId in self.usedIds:
+            newId = len(self.usedIds) + 1
+        self.idCounter = newId
+        self.usedIds.append(newId)
+        self.attributes["id"] = newId
 
     def showWeaponStats(self):
         stats=self.attributes

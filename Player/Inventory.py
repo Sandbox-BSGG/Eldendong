@@ -36,4 +36,4 @@ class Inventory(Exception):
             return(
                 f"Gold: {self.inventory['gold']}\nWeapons: {self.inventory['weapons']}\nPotions: {self.inventory['potions']}\n")
         else:
-            return str(self.inventory[type])
+            return self.inventory[type]

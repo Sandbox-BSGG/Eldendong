@@ -3,7 +3,7 @@ import random
 
 class HealthPotion:
 
-    usedIds = [0]
+    usedIds = []
     idCounter = 0
     attributes = {
         "id": idCounter,
@@ -20,20 +20,20 @@ class HealthPotion:
             case 2:
                 self.attributes.update({"healing": 60})
                 self.attributes.update({"name": "Potion LVL 2"})
-
             case 3:
                 self.attributes.update({"healing": 100})
                 self.attributes.update({"name": "Potion LVL 3"})
 
     def idGenerator(self):
-        newId = random.randint(1, 999)
-        if newId not in self.usedIds:
-            self.idCounter = newId
+        newId = len(self.usedIds) + 1
+        while newId in self.usedIds:
+            newId = len(self.usedIds) + 1
+        self.idCounter = newId
         self.usedIds.append(newId)
+        self.attributes["id"] = newId
 
     def showPotion(self):
         stats = self.attributes
-        self.deleteObject()
         return stats
 
     def deleteObject(self):
