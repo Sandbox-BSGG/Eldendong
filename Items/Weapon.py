@@ -1,11 +1,12 @@
 
 class Weapon:
-    usedIds=[]
+    usedIds = []
     idCounter = 0
     attributes = {
         "id": idCounter,
         "name": "",
     }
+
     def __init__(self, type: str, value: int):
         self.idGenerator()
         match type:
@@ -27,12 +28,12 @@ class Weapon:
         self.attributes["id"] = newId
 
     def showWeaponStats(self):
-        stats=self.attributes
+        stats = self.attributes
         self.deleteObject()
         return stats
 
     def deleteObject(self):
-        self.attributes=({
+        self.attributes = ({
             "id": self.idCounter,
             "name": "",
             "end": 0

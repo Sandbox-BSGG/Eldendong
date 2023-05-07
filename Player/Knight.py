@@ -7,7 +7,8 @@ class Knight():
     attributes = {
         "hp": 50,
         "end": 10,
-        "dps": 0
+        "dps": 0,
+        "lvl": 1
 
     }
 
@@ -17,7 +18,7 @@ class Knight():
         self.inventory = Inventory()
         self.inventory.addItem("weapons", self.starterWeapon.showWeaponStats())
         self.inventory.addItem("potions", self.starterPotion.showPotion())
-        self.updateDps(0)
+        self.updateDps(1)
 
     def usePotion(self, id):
         getPotion = self.inventory.showInventory("potions")
@@ -44,19 +45,41 @@ class Knight():
         else:
             return self.attributes[type]
 
-    def playerAttack(self,type:str):
-        None
+    def playerAttack(self, type: str):
+        match type:
+            case "basic":
+                damageDone = 10
+                newEnd = self.attributes["end"]-5
+                self.attributes.update({"end": newEnd})
+                return damageDone
+            case "light":
+                damageDone = 3
+                newEnd = self.attributes["end"]-2
+                self.attributes.update({"end": newEnd})
+                return damageDone
+            case "heavy":
+                damageDone = 30
+                newEnd = self.attributes["end"]-10
+                self.attributes.update({"end": newEnd})
+                return damageDone
 
     def takeDamage(self, damage: int):
         newHp = self.attributes["hp"]-damage
         self.attributes.update({"hp": newHp})
 
+    def sellItem(self, id):
+        None
+
+    def changeWeapon(self, id):
+        None
+
 
 Player = Knight()
 for i in range(10):
-    Weapons=Weapon("sword",100)
-    pots=HealthPotion(1)
+    Weapons = Weapon("sword", 100)
+    pots = HealthPotion(1)
     Player.inventory.addItem("weapons", Weapons.showWeaponStats())
     Player.inventory.addItem("potions", pots.showPotion())
 
 print(Player.inventory.showInventory())
+print(Player.showPlayerStats())
