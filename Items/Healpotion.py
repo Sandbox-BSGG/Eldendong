@@ -1,14 +1,7 @@
-
-
 class HealthPotion:
-
     usedIds = []
     idCounter = 0
-    attributes = {
-        "id": idCounter,
-        "name": "potion",
-        "healing": 0
-    }
+    attributes = {"id": idCounter, "name": "potion", "healing": 0, "value": 0}
 
     def __init__(self, level=1):
         self.idGenerator()
@@ -16,12 +9,17 @@ class HealthPotion:
             case 1:
                 self.attributes.update({"healing": 30})
                 self.attributes.update({"name": "Potion LVL 1"})
+                self.attributes.update({"value": 20})
+
             case 2:
                 self.attributes.update({"healing": 60})
                 self.attributes.update({"name": "Potion LVL 2"})
+                self.attributes.update({"value": 50})
+
             case 3:
                 self.attributes.update({"healing": 100})
                 self.attributes.update({"name": "Potion LVL 3"})
+                self.attributes.update({"value": 100})
 
     def idGenerator(self):
         newId = len(self.usedIds) + 1
@@ -36,8 +34,4 @@ class HealthPotion:
         return stats
 
     def deleteObject(self):
-        self.attributes = ({
-            "id": self.idCounter,
-            "name": "potion",
-            "healing": 0
-        })
+        self.attributes = {"id": self.idCounter, "name": "potion", "healing": 0}

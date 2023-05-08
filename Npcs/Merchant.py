@@ -1,2 +1,30 @@
+from Player.Inventory import Inventory
+from Items.Weapon import Weapon
+from Items.Healpotion import HealthPotion
+
+
 class Merchant:
-    None
+    def __init__(self, clazz: str):
+        self.inventory = Inventory()
+        self.shopWeapon = None
+        match clazz:
+            case "knight":
+                self.shopWeapon = Weapon("sword", 100)
+            case "mage":
+                self.shopWeapon = Weapon("staff", 100)
+            case "archer":
+                self.shopWeapon = Weapon("bow", 100)
+        if self.shopWeapon != None:
+            self.inventory.addItem("weapons", self.shopWeapon.showWeaponStats())
+            for i in range(10):
+                self.shopPotion = HealthPotion(2)
+                self.inventory.addItem("potions", self.shopPotion.showPotion())
+
+    def itemBought(self,key,id):
+        self.inventory.deleteItem(key,id)
+    
+
+
+newMerchant = Merchant("knight")
+newMerchant.itemBought("potions",5)
+print(newMerchant.inventory.showInventory("potions",6))

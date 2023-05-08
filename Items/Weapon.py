@@ -1,11 +1,7 @@
-
 class Weapon:
     usedIds = []
     idCounter = 0
-    attributes = {
-        "id": idCounter,
-        "name": "",
-    }
+    attributes = {"id": idCounter, "name": "", "value": 0}
 
     def __init__(self, type: str, value: int):
         self.idGenerator()
@@ -33,8 +29,7 @@ class Weapon:
         return stats
 
     def deleteObject(self):
-        self.attributes = ({
-            "id": self.idCounter,
-            "name": "",
-            "end": 0
-        })
+        self.attributes = {"id": self.idCounter, "name": "", "end": 0}
+
+    def updateGoldValue(self, goldValue=0):
+        self.attributes.update({"value": goldValue})

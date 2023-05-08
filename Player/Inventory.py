@@ -31,9 +31,14 @@ class Inventory(Exception):
         setValue = self.inventory["gold"] - value
         self.inventory.update({"gold": setValue})
 
-    def showInventory(self,type=None):
+    def showInventory(self,type=None,id=None):
         if type == "" or type == None:
             return(
                 f"Gold: {self.inventory['gold']}\nWeapons: {self.inventory['weapons']}\nPotions: {self.inventory['potions']}\n")
-        else:
+        elif type!=None and id!=None:
+            return self.inventory[type][id]
+
+        elif type!=None:
             return self.inventory[type]
+
+

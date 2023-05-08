@@ -3,14 +3,8 @@ from Player.Inventory import Inventory
 from Items.Weapon import Weapon
 
 
-class Knight():
-    attributes = {
-        "hp": 50,
-        "end": 10,
-        "dps": 0,
-        "lvl": 1
-
-    }
+class Knight:
+    attributes = {"hp": 50, "end": 10, "dps": 0, "lvl": 1}
 
     def __init__(self):
         self.starterPotion = HealthPotion(1)
@@ -24,7 +18,7 @@ class Knight():
         getPotion = self.inventory.showInventory("potions")
         for potion in getPotion:
             if potion.get("id") == id:
-                healing = potion.get('healing')+self.attributes["hp"]
+                healing = potion.get("healing") + self.attributes["hp"]
                 self.attributes.update({"hp": healing})
                 result = f"healing {potion.get('healing')}"
                 self.inventory.deleteItem("potions", 0)
@@ -41,7 +35,8 @@ class Knight():
     def showPlayerStats(self, type=None):
         if type == "" or type == None:
             print(
-                f"HP: {self.attributes['hp']}\nEndurance: {self.attributes['end']}\nDPS: {self.attributes['dps']}\n")
+                f"HP: {self.attributes['hp']}\nEndurance: {self.attributes['end']}\nDPS: {self.attributes['dps']}\n"
+            )
         else:
             return self.attributes[type]
 
@@ -49,22 +44,22 @@ class Knight():
         match type:
             case "basic":
                 damageDone = 10
-                newEnd = self.attributes["end"]-5
+                newEnd = self.attributes["end"] - 5
                 self.attributes.update({"end": newEnd})
                 return damageDone
             case "light":
                 damageDone = 3
-                newEnd = self.attributes["end"]-2
+                newEnd = self.attributes["end"] - 2
                 self.attributes.update({"end": newEnd})
                 return damageDone
             case "heavy":
                 damageDone = 30
-                newEnd = self.attributes["end"]-10
+                newEnd = self.attributes["end"] - 10
                 self.attributes.update({"end": newEnd})
                 return damageDone
 
     def takeDamage(self, damage: int):
-        newHp = self.attributes["hp"]-damage
+        newHp = self.attributes["hp"] - damage
         self.attributes.update({"hp": newHp})
 
     def sellItem(self, id):
@@ -72,14 +67,3 @@ class Knight():
 
     def changeWeapon(self, id):
         None
-
-
-Player = Knight()
-for i in range(10):
-    Weapons = Weapon("sword", 100)
-    pots = HealthPotion(1)
-    Player.inventory.addItem("weapons", Weapons.showWeaponStats())
-    Player.inventory.addItem("potions", pots.showPotion())
-
-print(Player.inventory.showInventory())
-print(Player.showPlayerStats())
