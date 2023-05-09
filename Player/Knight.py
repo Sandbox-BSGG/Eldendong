@@ -62,8 +62,10 @@ class Knight:
         newHp = self.attributes["hp"] - damage
         self.attributes.update({"hp": newHp})
 
-    def sellItem(self, id):
-        None
+    def sellItem(self, key, id):
+        sellItem = self.inventory.showInventory(key, id)
+        self.inventory.addGold(sellItem["value"])
+        self.inventory.deleteItem(key, id)
 
     def changeWeapon(self, id):
         None

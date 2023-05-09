@@ -21,10 +21,8 @@ class Merchant:
                 self.inventory.addItem("potions", self.shopPotion.showPotion())
 
     def itemBought(self,key,id):
-        self.inventory.deleteItem(key,id)
+        self.boughtItem=self.inventory.showInventory(key,id)
+        self.inventory.deleteItem(key,id)        
+        return self.boughtItem
     
 
-
-newMerchant = Merchant("knight")
-newMerchant.itemBought("potions",5)
-print(newMerchant.inventory.showInventory("potions",6))
