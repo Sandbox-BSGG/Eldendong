@@ -15,22 +15,16 @@ class Knight:
         self.updateDps(1)
 
     def usePotion(self, id):
-        getPotion = self.inventory.showInventory("potions")
-        for potion in getPotion:
-            if potion.get("id") == id:
-                healing = potion.get("healing") + self.attributes["hp"]
-                self.attributes.update({"hp": healing})
-                result = f"healing {potion.get('healing')}"
-                self.inventory.deleteItem("potions", 0)
-
-                return result
+        getPotion = self.inventory.showInventory("potions",id)
+        healing = getPotion["healing"] + self.attributes["hp"]
+        self.attributes.update({"hp": healing})
+        result = f"healing {getPotion['healing']}"
+        self.inventory.deleteItem("potions", 0)
+        return result
 
     def updateDps(self, id):
-        getWeapon = self.inventory.showInventory("weapons")
-        for weapon in getWeapon:
-            if weapon.get("id") == id:
-                newDps = weapon["str"]
-                self.attributes.update({"dps": newDps})
+        getWeapon = self.inventory.showInventory("weapons",id)
+        self.attributes.update({"dps":getWeapon})
 
     def showPlayerStats(self, type=None):
         if type == "" or type == None:
@@ -67,5 +61,4 @@ class Knight:
         self.inventory.addGold(sellItem["value"])
         self.inventory.deleteItem(key, id)
 
-    def changeWeapon(self, id):
-        None
+
