@@ -34,4 +34,5 @@ class HealthPotion:
         return stats
 
     def deleteObject(self):
-        self.attributes = {"id": self.idCounter, "name": "potion", "healing": 0}
+        self.attributes = {"id": self.idCounter,
+                           "name": "potion", "healing": 0}

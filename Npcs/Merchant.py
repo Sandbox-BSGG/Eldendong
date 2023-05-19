@@ -3,6 +3,7 @@ from Items.Weapon import Weapon
 from Items.Healpotion import HealthPotion
 import random
 
+
 class Merchant:
     def __init__(self, clazz: str):
         self.inventory = Inventory()
@@ -16,15 +17,16 @@ class Merchant:
                 case "archer":
                     self.shopWeapon = Weapon("bow", self.numGenerator())
             if self.shopWeapon != None:
-                self.inventory.addItem("weapons", self.shopWeapon.showWeaponStats())
+                self.inventory.addItem(
+                    "weapons", self.shopWeapon.showWeaponStats())
         for i in range(10):
-            self.shopPotion = HealthPotion(self.numGenerator(1,3))
+            self.shopPotion = HealthPotion(self.numGenerator(1, 3))
             self.inventory.addItem("potions", self.shopPotion.showPotion())
 
-    def itemBought(self,key,id):
-        self.boughtItem=self.inventory.showInventory(key,id)
-        self.inventory.deleteItem(key,id)        
+    def itemBought(self, key, id):
+        self.boughtItem = self.inventory.showInventory(key, id)
+        self.inventory.deleteItem(key, id)
         return self.boughtItem
-    
-    def numGenerator(self,start=30,end=200):
-        return random.randint(start,end)
+
+    def numGenerator(self, start=30, end=200):
+        return random.randint(start, end)
