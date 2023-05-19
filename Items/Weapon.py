@@ -1,12 +1,8 @@
-import random
-
 class Weapon:
-    usedIds=[0]
+    usedIds = []
     idCounter = 0
-    attributes = {
-        "id": idCounter,
-        "name": "",
-    }
+    attributes = {"id": idCounter, "name": "", "value": 0}
+
     def __init__(self, type: str, value: int):
         self.idGenerator()
         match type:
@@ -20,19 +16,20 @@ class Weapon:
         return self.attributes.update({"name": type})
 
     def idGenerator(self):
-        newId=random.randint(1,999)
-        if newId not in self.usedIds:
-            self.idCounter=newId
-        return self.usedIds.append(newId)
+        newId = len(self.usedIds) + 1
+        while newId in self.usedIds:
+            newId = len(self.usedIds) + 1
+        self.idCounter = newId
+        self.usedIds.append(newId)
+        self.attributes["id"] = newId
 
     def showWeaponStats(self):
-        stats=self.attributes
+        stats = self.attributes
         self.deleteObject()
         return stats
 
     def deleteObject(self):
-        self.attributes=({
-            "id": self.idCounter,
-            "name": "",
-            "end": 0
-        })
+        self.attributes = {"id": self.idCounter, "name": "", "end": 0}
+
+    def updateGoldValue(self, goldValue=0):
+        self.attributes.update({"value": goldValue})
