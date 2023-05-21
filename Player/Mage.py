@@ -7,12 +7,12 @@ class Mage(Player):
         match type:
             case "basic":
                 damageDone = self.randInt(3, 10)
-                newEnd = self.attributes["end"]-4
+                newEnd = self.attributes["end"]-2
                 self.attributes.update({"end": newEnd})
                 return damageDone
             case "light":
                 damageDone = self.randInt(3, 5)
-                newEnd = self.attributes["end"]-2
+                newEnd = self.attributes["end"]-4
                 self.attributes.update({"end": newEnd})
                 return damageDone
             case "heavy":
