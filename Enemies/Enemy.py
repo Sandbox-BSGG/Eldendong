@@ -3,15 +3,16 @@ import random
 
 class Enemy:
 
-    usedIds = [0]
+    usedIds = []
     idCounter = 0
-    attributes = {
-        "id": idCounter,
-        "hp": 10,
-        "end": 10
-    }
 
     def __init__(self, name=""):
+        self.attributes = {
+            "id": self.idCounter,
+            "hp": 10,
+            "end": 10
+            }
+
         self.idGenerator()
         self.attributes.update({"name": f"{name} {len(self.usedIds)}"})
 

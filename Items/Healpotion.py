@@ -1,9 +1,9 @@
 class HealthPotion:
     usedIds = []
     idCounter = 0
-    attributes = {"id": idCounter, "name": "potion", "healing": 0, "value": 0}
 
     def __init__(self, level=1):
+        self.attributes = {"id": self.idCounter, "name": "potion", "healing": 0, "value": 0}
         self.idGenerator()
         match level:
             case 1:

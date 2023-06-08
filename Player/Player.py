@@ -5,15 +5,16 @@ import random
 
 
 class Player:
-    attributes = {"hp": 50,
-                  "maxHp": 50,
-                  "end": 10,
-                  "dps": 0,
-                  "lvl": 1,
-                  "xp": 0,
-                  "maxEnd": 10}
 
     def __init__(self, playerClass: str):
+        self.attributes = {
+            "hp": 50,
+            "maxHp": 50,
+            "end": 10,
+            "dps": 0,
+            "lvl": 1,
+            "xp": 0,
+            "maxEnd": 10}
         self.starterPotion = HealthPotion(1)
         match playerClass:
             case "knight":
@@ -79,3 +80,6 @@ class Player:
         else:
             xpNeeded = 100-self.attributes["xp"]
             return f"You need {xpNeeded} XP for the next level"
+
+player=Player("mage")
+player.showPlayerStats()
