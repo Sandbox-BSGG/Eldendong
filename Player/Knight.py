@@ -1,4 +1,3 @@
-from Player.Player import Player
 
 
 class Knight(Player):
