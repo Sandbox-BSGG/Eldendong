@@ -1,3 +1,4 @@
+from Player.Player import Player
 
 
 class Archer(Player):

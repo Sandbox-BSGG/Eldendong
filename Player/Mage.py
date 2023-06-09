@@ -1,4 +1,4 @@
-
+from Player.Player import Player
 
 class Mage(Player):
 
