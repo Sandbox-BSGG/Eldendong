@@ -1,5 +1,5 @@
 from Items.Healpotion import HealthPotion
-from Inventory import Inventory
+from Player.Inventory import Inventory
 from Items.Weapon import Weapon
 import random
 
