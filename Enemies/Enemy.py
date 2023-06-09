@@ -32,6 +32,8 @@ class Enemy:
 
     def takeDamage(self, damage: int):
         newHP = self.attributes["hp"] - damage
+        if damage>newHP:
+            return self.attributes.update({"hp": 0})    
         return self.attributes.update({"hp": newHP})
 
     def randInt(self, start=0, end=10):
