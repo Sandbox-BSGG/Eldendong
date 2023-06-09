@@ -1,4 +1,4 @@
-from Player.Player import Player
+from Player import Player
 
 
 class Mage(Player):
@@ -21,7 +21,5 @@ class Mage(Player):
                 self.attributes.update({"end": newEnd})
                 return damageDone
             
-m=Mage("mage")
-m.showPlayerStats("end")
-m.attack("basic")
-m.showPlayerStats("end")
+mag=Mage("mage")
+print(mag.showPlayerStats())

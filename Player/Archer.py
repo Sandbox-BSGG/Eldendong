@@ -1,4 +1,4 @@
-from Player.Player import Player
+from Player import Player
 
 
 class Archer(Player):
