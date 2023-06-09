@@ -10,14 +10,14 @@ class Enemy:
         self.attributes = {
             "id": self.idCounter,
             "hp": 10,
-            "end": 10
+            "end": 10,
             }
 
         self.idGenerator()
-        self.attributes.update({"name": f"{name} {len(self.usedIds)}"})
+        self.attributes.update({"name": f"{name} {self.idCounter}"})
 
     def idGenerator(self):
-        newId = len(self.usedIds) + 1
+        newId = len(self.usedIds)
         while newId in self.usedIds:
             newId = len(self.usedIds) + 1
         self.idCounter = newId

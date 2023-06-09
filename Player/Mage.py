@@ -20,3 +20,8 @@ class Mage(Player):
                 newEnd = self.attributes["end"]-8
                 self.attributes.update({"end": newEnd})
                 return damageDone
+            
+m=Mage("mage")
+m.showPlayerStats("end")
+m.attack("basic")
+m.showPlayerStats("end")

@@ -80,6 +80,3 @@ class Player:
         else:
             xpNeeded = 100-self.attributes["xp"]
             return f"You need {xpNeeded} XP for the next level"
-
-player=Player("mage")
-player.showPlayerStats()

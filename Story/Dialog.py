@@ -32,8 +32,9 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
         game rules / Shows you the game rules,
         stats / Shows your currents statistics,
         inv / Shows your inventory,
-        sell / sell an item to the merchant for gold
         buy / buy an item from the merchant with gold
+        sell / sell an item to the merchant for gold
+
         switch / switch out your current weapon
         stop / ends the game
 

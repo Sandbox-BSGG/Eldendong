@@ -3,11 +3,12 @@ import copy  # From ChatGPT/ used for copying object
 
 class Inventory(Exception):
     # From ChatGPT/ Exeption is used for Error handling
-    inventory = {
-        "gold": 0,
-        "weapons": [],
-        "potions": [],
-    }
+    def __init__(self):
+        self.inventory = {
+            "gold": 0,
+            "weapons": [],
+            "potions": [],
+        }
 
     def addItem(self, key, value):
         newVal = copy.deepcopy(value)
@@ -35,15 +36,13 @@ class Inventory(Exception):
         setValue = self.inventory["gold"] - value
         self.inventory.update({"gold": setValue})
 
-    def showInventory(self,type=None,id=None):
+    def showInventory(self, type=None, id=None):
         if type == "" or type == None:
-            return(
+            return (
                 f"Gold: {self.inventory['gold']}\nWeapons: {self.inventory['weapons']}\nPotions: {self.inventory['potions']}\n")
-        elif type!=None and id!=None:
+        elif type != None and id != None:
             for element in self.inventory[type]:
                 if id == element["id"]:
                     return element
-        elif type!=None:
+        elif type != None:
             return self.inventory[type]
-
-
