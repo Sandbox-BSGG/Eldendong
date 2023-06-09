@@ -23,7 +23,10 @@ E::::::::::::::::::::EL::::::::::::::::::::::LD:::::::::::::::DD E::::::::::::::
 E::::::::::::::::::::EL::::::::::::::::::::::LD::::::::::::DDD   E::::::::::::::::::::EN::::::N        N::::::ND::::::::::::DDD        OO:::::::::OO   N::::::N        N::::::N     GGG::::::GGG:::G
 EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEEEEEEEEENNNNNNNN         NNNNNNNDDDDDDDDDDDDD             OOOOOOOOO     NNNNNNNN         NNNNNNN        GGGGGG   GGGG
 """)  # http://www.network-science.de/ascii/ , font: doh
-        
+
+    def notifyHelp(self):
+        print("Type help to see all your options as a Player")
+
     def help(self):
         print("""
         As the player you have the following commands:
@@ -62,3 +65,19 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
         when fighting these enemies you always start first,
         you can do actions until your endurance is 0 or you wish to end your turn
         """)
+
+    def actionW(self):
+        print("You walked forward")
+
+    def actionA(self):
+        print("You walked left")
+
+    def actionS(self):
+        print("You walked backwards")
+
+    def actionD(self):
+        print("You walked right")
+
+    def stop(self):
+        print("Thansk for playing and goodbye")
+

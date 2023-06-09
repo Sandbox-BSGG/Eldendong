@@ -21,7 +21,7 @@ class Inventory(Exception):
     def deleteItem(self, key, id):
         if key != "gold":
             for item in self.inventory[key]:
-                if item["id"] == id:
+                if item["id"] == int(id):
                     self.inventory[key].remove(item)
 
         else:

@@ -29,16 +29,20 @@ class Player:
         self.updateDps(1)
 
     def usePotion(self, id):
-        getPotion = self.inventory.showInventory("potions", id)
-        healing = getPotion["healing"] + self.attributes["hp"]
-        if healing > self.attributes["maxHp"]:
-            self.attributes.update({"hp": self.attributes["maxHp"]})
-            self.inventory.deleteItem("potions", 0)
-            return f"full heal"
+        getPotion = self.inventory.showInventory("potions", int(id))
+        if getPotion!=None:
+
+            healing = getPotion["healing"] + self.attributes["hp"]
+            if healing > self.attributes["maxHp"]:
+                self.attributes.update({"hp": self.attributes["maxHp"]})
+                self.inventory.deleteItem("potions",id)
+                return f"full heal"
+            else:
+                self.attributes.update({"hp": healing})
+                self.inventory.deleteItem("potions", id)
+                return f"healing {getPotion['healing']}"
         else:
-            self.attributes.update({"hp": healing})
-            self.inventory.deleteItem("potions", 0)
-            return f"healing {getPotion['healing']}"
+            print("No potion found!")
 
     def updateDps(self, id):
         getWeapon = self.inventory.showInventory("weapons", id)
