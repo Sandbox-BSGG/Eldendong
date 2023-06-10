@@ -206,10 +206,16 @@ while player.showPlayerStats("hp") > 0:
 
     elif action == "a":
         dialog.actionA()
+        dialog.actionW()
+        combatEncounter()
     elif action == "s":
         dialog.actionS()
+        dialog.actionW()
+        combatEncounter()
     elif action == "d":
         dialog.actionD()
+        dialog.actionW()
+        combatEncounter()
     elif action == "stop":
         dialog.stop()
         break
