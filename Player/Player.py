@@ -46,7 +46,7 @@ class Player:
 
     def updateDps(self, id):
         getWeapon = self.inventory.showInventory("weapons", id)
-        self.attributes.update({"dps": getWeapon})
+        self.attributes.update({"dps": getWeapon["dps"]})
 
     def showPlayerStats(self, type=None):
         if type == "" or type == None:

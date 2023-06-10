@@ -5,27 +5,11 @@ class Weapon:
 
     def __init__(self, type: str, value: int):
         self.idGenerator()
-        match type:
-            case "bow":
-                self.attributes.update({"ar": value})
-                if value-30 <= 0:
-                    self.attributes.update({"value": 0})
-                else:
-                    self.attributes.update({"value": value-30})
-
-            case "sword":
-                self.attributes.update({"str": value})
-                if value-30 <= 0:
-                    self.attributes.update({"value": 0})
-                else:
-                    self.attributes.update({"value": value-30})
-
-            case "staff":
-                self.attributes.update({"int": value})
-                if value-30 <= 0:
-                    self.attributes.update({"value": 0})
-                else:
-                    self.attributes.update({"value": value-30})
+        self.attributes.update({"dps": value})
+        if value-30 <= 0:
+            self.attributes.update({"value": 0})
+        else:
+            self.attributes.update({"value": value-30})
 
         return self.attributes.update({"name": type})
 

@@ -122,15 +122,15 @@ def combatEncounter():
                     attack = input("Player: ").lower()
 
                 elif attack == "light" and player.showPlayerStats("end") < 2:
-                    print("Not enough Endurance!")
+                    dialog.noEnd()
                     attack = input("Player: ").lower()
 
                 elif attack == "basic" and player.showPlayerStats("end") < 4:
-                    print("Not enough Endurance!")
+                    dialog.noEnd()
                     attack = input("Player: ").lower()
 
                 elif attack == "heavy" and player.showPlayerStats("end") < 8:
-                    print("Not enough Endurance!")
+                    dialog.noEnd()
                     attack = input("Player: ").lower()
 
                 else:
@@ -139,7 +139,7 @@ def combatEncounter():
             notEnoughEnd = True
 
             damageDone = player.attack(attack)
-            damageDone += player.showPlayerStats("dps")
+            damageDone+= player.showPlayerStats("dps")
             print(
                 f"You have {player.showPlayerStats('end')} endurance remaining")
             for enemy in enemyList:
@@ -153,7 +153,7 @@ def combatEncounter():
             if len(enemyList) == 0:
                 dialog.allDead()
                 print(f"You recived {xpAndGold} XP")
-                player.addStat("xp", xpAndGold)
+                player.addStat("xp", xpAndGold[0])
                 player.inventory.addGold(xpAndGold[1])
                 print(player.lvlUp())
                 xpAndGold = 0

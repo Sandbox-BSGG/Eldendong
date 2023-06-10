@@ -102,3 +102,6 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
     def allDead(self):
         print("You have killed every enemy!")
 
+    def noEnd(self):
+        print("Not enough Endurance!")
+
