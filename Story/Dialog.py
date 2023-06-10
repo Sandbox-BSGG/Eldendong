@@ -81,3 +81,24 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
     def stop(self):
         print("Thansk for playing and goodbye")
 
+    def inCombat(self):
+        print("You are now in combat")
+
+    def encounter(self):
+        print("You have encountered")
+
+    def chooseMob(self):
+        print("Which mob do you want to attack? Use the number of the Mob to target ")
+
+    def chooseAttack(self):
+        print("What kind of attack do you want to use? / help")
+
+    def Nan(self):
+        print("Not a number or out of range")
+
+    def attackInvalid(self):
+        print("Attack does not exist try again")
+
+    def allDead(self):
+        print("You have killed every enemy!")
+

@@ -30,12 +30,12 @@ class Player:
 
     def usePotion(self, id):
         getPotion = self.inventory.showInventory("potions", int(id))
-        if getPotion!=None:
+        if getPotion != None:
 
             healing = getPotion["healing"] + self.attributes["hp"]
             if healing > self.attributes["maxHp"]:
                 self.attributes.update({"hp": self.attributes["maxHp"]})
-                self.inventory.deleteItem("potions",id)
+                self.inventory.deleteItem("potions", id)
                 return f"full heal"
             else:
                 self.attributes.update({"hp": healing})
@@ -57,8 +57,11 @@ class Player:
             return self.attributes[type]
 
     def takeDamage(self, damage: int):
-        newHp = self.attributes["hp"] - damage
-        self.attributes.update({"hp": newHp})
+        if self.attributes["hp"] <= damage:
+            self.attributes.update({"hp": 0})
+        else:
+            newHp = self.attributes["hp"] - damage
+            self.attributes.update({"hp": newHp})
 
     def sellItem(self, key, id):
         sellItem = self.inventory.showInventory(key, id)
@@ -69,7 +72,7 @@ class Player:
         return random.randint(start, end)
 
     def nextRound(self):
-        self.attributes.update({"end": self.attributes["maxEnd"]})
+        return self.attributes.update({"end": self.attributes["maxEnd"]})
 
     def addStat(self, stat: str, value):  # mainly used for xp
         newStat = self.attributes[stat]+value
@@ -80,7 +83,7 @@ class Player:
             self.attributes.update({"lvl": self.attributes["lvl"]+1})
             self.addStat("maxEnd", 5)
             self.addStat("maxHp", 10)
-            return
+            return f"New level! maximum HP increased to {self.attributes['maxHp']} and maximum Endurance is now {self.attributes['maxEnd']}"
         else:
             xpNeeded = 100-self.attributes["xp"]
             return f"You need {xpNeeded} XP for the next level"
