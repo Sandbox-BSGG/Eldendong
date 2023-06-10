@@ -113,9 +113,11 @@ def combatEncounter():
                     attack = input("Player: ").lower()
                 elif attack == "heal":
                     healing()
+                    attack = input("Player: ").lower()
+
                 else:
                     dialog.attackInvalid()
-                attack = input("Player: ").lower()
+                    attack = input("Player: ").lower()
             while notEnoughEnd:
                 if attack not in attackList:
                     dialog.attackInvalid()
@@ -152,7 +154,7 @@ def combatEncounter():
                         enemyList.remove(enemy)
             if len(enemyList) == 0:
                 dialog.allDead()
-                print(f"You recived {xpAndGold} XP")
+                print(f"You received {xpAndGold[0]} XP")
                 player.addStat("xp", xpAndGold[0])
                 player.inventory.addGold(xpAndGold[1])
                 print(player.lvlUp())
