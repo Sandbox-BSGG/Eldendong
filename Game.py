@@ -197,7 +197,7 @@ def merchantEncounter():
         potions = merchant.inventory.showInventory("potions")
         for weapon in weapons:
             print(
-                f"ID: {weapon['id']}  Name: {weapon['name']}  Gold value: {weapon['value']}  Damage: {weapon["dps"]}")
+                f"ID: {weapon['id']}  Name: {weapon['name']}  Gold value: {weapon['value']}  Damage: {weapon['dps']}")
             time.sleep(0.1)
         print("\n")
         for potion in potions:
