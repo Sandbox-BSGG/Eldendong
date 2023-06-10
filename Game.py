@@ -23,20 +23,26 @@ while chooseClass not in classes:
     print("Not a Class")
     chooseClass = input("Choose your class: Knight, Mage, Archer: ").lower()
 
-match chooseClass:
-    case "knight":
-        player = Knight("knight")
-    case "mage":
-        player = Mage("mage")
-    case "archer":
-        player = Archer("archer")
-
 merchant = Merchant(chooseClass)
+
+
+def choosePlayer(chooseClass):
+    match chooseClass:
+        case "knight":
+            return Knight("knight")
+        case "mage":
+            return Mage("mage")
+        case "archer":
+            return Archer("archer")
+
+
+player = choosePlayer(chooseClass)
 
 
 def enemyGenerator():
     names = ["rat", "skeleton", "spider", "zombie"]
-    counter=0
+    counter = 0
+    gold = 0
     for i in range(random.randint(1, 3)):
         randonName = names[random.randint(0, 3)]
         match randonName:
@@ -48,14 +54,15 @@ def enemyGenerator():
                 enemyList.append(Spider("spider"))
             case"zombie":
                 enemyList.append(Zombie("zombie"))
-        counter+=10
-    return counter
+        counter += 10
+        gold += 20
+    return counter, gold
 
 
 def healing():
     print(player.inventory.showInventory("potions"))
     while True:
-        potion = input("Choose your potion: ")
+        potion = input("Choose your potion: ").lower()
         try:
             int(potion)
             player.usePotion(potion)
@@ -71,9 +78,10 @@ def combatEncounter():
     nextTurn = False
     notEnoughEnd = True
 
-    xpCounter=enemyGenerator()
+    xpAndGold = enemyGenerator()
 
     dialog.inCombat()
+    time.sleep(0.3)
     while inCombat:
         if player.showPlayerStats("end") >= 1 and nextTurn == False:
             dialog.encounter()
@@ -82,7 +90,7 @@ def combatEncounter():
             dialog.chooseMob()
 
             while chooseTarget:
-                target = input("Player Combat: ")
+                target = input("Player Combat: ").lower()
                 try:
                     target = int(target)
                     for enemy in enemyList:
@@ -94,35 +102,36 @@ def combatEncounter():
                     dialog.Nan()
 
             chooseTarget = True
+            time.sleep(0.3)
             dialog.chooseAttack()
-            attack = input("Player: ")
+            attack = input("Player: ").lower()
 
             while attack not in attackList:
 
                 if attack == "help":
                     dialog.help()
-                    attack = input("Player: ")
+                    attack = input("Player: ").lower()
                 elif attack == "heal":
                     healing()
                 else:
                     dialog.attackInvalid()
-                attack = input("Player: ")
+                attack = input("Player: ").lower()
             while notEnoughEnd:
                 if attack not in attackList:
                     dialog.attackInvalid()
-                    attack = input("Player: ")
+                    attack = input("Player: ").lower()
 
                 elif attack == "light" and player.showPlayerStats("end") < 2:
                     print("Not enough Endurance!")
-                    attack = input("Player: ")
+                    attack = input("Player: ").lower()
 
                 elif attack == "basic" and player.showPlayerStats("end") < 4:
                     print("Not enough Endurance!")
-                    attack = input("Player: ")
+                    attack = input("Player: ").lower()
 
                 elif attack == "heavy" and player.showPlayerStats("end") < 8:
                     print("Not enough Endurance!")
-                    attack = input("Player: ")
+                    attack = input("Player: ").lower()
 
                 else:
                     notEnoughEnd = False
@@ -130,6 +139,7 @@ def combatEncounter():
             notEnoughEnd = True
 
             damageDone = player.attack(attack)
+            damageDone += player.showPlayerStats("dps")
             print(
                 f"You have {player.showPlayerStats('end')} endurance remaining")
             for enemy in enemyList:
@@ -142,12 +152,13 @@ def combatEncounter():
                         enemyList.remove(enemy)
             if len(enemyList) == 0:
                 dialog.allDead()
-                print(f"You recived {xpCounter} XP")
-                player.addStat("xp",xpCounter)
+                print(f"You recived {xpAndGold} XP")
+                player.addStat("xp", xpAndGold)
+                player.inventory.addGold(xpAndGold[1])
                 print(player.lvlUp())
-                xpCounter=0
+                xpAndGold = 0
                 player.nextRound()
-                player.addStat("hp",200)
+                player.addStat("hp", 200)
                 nextTurn = True
                 inCombat = False
             else:
@@ -170,13 +181,40 @@ def combatEncounter():
                 player.takeDamage(enemyDamage)
                 print(f"{enemy.showEnemy('name')} dealt {enemyDamage} to you!")
                 print(f"You have {player.showPlayerStats('hp')} HP remaining")
-                print
+                time.sleep(1)
             nextTurn = False
             player.nextRound()
 
 
-def merchantEncounter(self):
-    None
+def merchantEncounter():
+    inShop = True
+    dps = ""
+    match chooseClass:
+        case "knight":
+            dps = "str"
+        case "mage":
+            dps = "int"
+        case "archer":
+            dps = "ar"
+
+    while inShop:
+        print("You have encountered a Merchants shop!")
+        print("IMPORTANT: This Merchant will disappear if you leave his shop")
+        time.sleep(0.3)
+        weapons = merchant.inventory.showInventory("weapons")
+        potions = merchant.inventory.showInventory("potions")
+        for weapon in weapons:
+            print(
+                f"ID: {weapon['id']}  Name: {weapon['name']}  Gold value: {weapon['value']}  Damage: {weapon[dps]}")
+            time.sleep(0.1)
+        print("\n")
+        for potion in potions:
+            print(
+                f"ID: {potion['id']}  Name: {potion['name']}  Gold value: {potion['value']}  Damage: {potion['healing']}")
+            time.sleep(0.1)
+        print("\n")
+        print("Do you want to buy or sell something? buy / sell / leave / help")
+        buyOrSell = input().lower()
 
 
 dialog.gameRule()
@@ -206,15 +244,12 @@ while player.showPlayerStats("hp") > 0:
 
     elif action == "a":
         dialog.actionA()
-        dialog.actionW()
-        combatEncounter()
+        merchantEncounter()
     elif action == "s":
         dialog.actionS()
-        dialog.actionW()
         combatEncounter()
     elif action == "d":
         dialog.actionD()
-        dialog.actionW()
         combatEncounter()
     elif action == "stop":
         dialog.stop()

@@ -26,7 +26,7 @@ class Player:
         self.inventory = Inventory()
         self.inventory.addItem("weapons", self.starterWeapon.showWeaponStats())
         self.inventory.addItem("potions", self.starterPotion.showPotion())
-        self.updateDps(1)
+        self.updateDps(self.starterWeapon.showWeaponStats("id"))
 
     def usePotion(self, id):
         getPotion = self.inventory.showInventory("potions", int(id))

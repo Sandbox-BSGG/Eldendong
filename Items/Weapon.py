@@ -8,10 +8,24 @@ class Weapon:
         match type:
             case "bow":
                 self.attributes.update({"ar": value})
+                if value-30 <= 0:
+                    self.attributes.update({"value": 0})
+                else:
+                    self.attributes.update({"value": value-30})
+
             case "sword":
                 self.attributes.update({"str": value})
+                if value-30 <= 0:
+                    self.attributes.update({"value": 0})
+                else:
+                    self.attributes.update({"value": value-30})
+
             case "staff":
                 self.attributes.update({"int": value})
+                if value-30 <= 0:
+                    self.attributes.update({"value": 0})
+                else:
+                    self.attributes.update({"value": value-30})
 
         return self.attributes.update({"name": type})
 
@@ -23,10 +37,13 @@ class Weapon:
         self.usedIds.append(newId)
         self.attributes["id"] = newId
 
-    def showWeaponStats(self):
+    def showWeaponStats(self, type=None):
         stats = self.attributes
         self.deleteObject()
-        return stats
+        if type == None:
+            return stats
+        elif type == "id":
+            return stats["id"]
 
     def deleteObject(self):
         self.attributes = {"id": self.idCounter, "name": "", "end": 0}
