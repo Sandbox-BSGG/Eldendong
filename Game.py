@@ -146,6 +146,8 @@ def combatEncounter():
                 player.addStat("xp",xpCounter)
                 print(player.lvlUp())
                 xpCounter=0
+                player.nextRound()
+                player.addStat("hp",200)
                 nextTurn = True
                 inCombat = False
             else:

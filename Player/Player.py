@@ -76,7 +76,10 @@ class Player:
 
     def addStat(self, stat: str, value):  # mainly used for xp
         newStat = self.attributes[stat]+value
-        return self.attributes.update({stat: newStat})
+        if stat == "hp" and newStat > self.attributes["maxHp"]:
+            self.attributes.update({stat: self.attributes["maxHp"]})
+        else:
+            self.attributes.update({stat: newStat})
 
     def lvlUp(self):
         if self.attributes["xp"] == 100 or self.attributes["xp"] >= 100:
