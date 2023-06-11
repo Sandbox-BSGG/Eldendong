@@ -23,10 +23,13 @@ class Merchant:
             self.shopPotion = HealthPotion(self.numGenerator(1, 3))
             self.inventory.addItem("potions", self.shopPotion.showPotion())
 
-    def itemBought(self, key, id):
-        self.boughtItem = self.inventory.showInventory(key, id)
-        self.inventory.deleteItem(key, id)
-        return self.boughtItem
+    def itemBought(self, key, id, gold):
+        self.boughtItem = self.inventory.showInventory(key, int(id))
+        if gold<self.boughtItem["value"]:
+            return 0
+        else:
+            self.inventory.deleteItem(key, id)
+            return self.boughtItem
 
     def numGenerator(self, start=30, end=200):
         return random.randint(start, end)

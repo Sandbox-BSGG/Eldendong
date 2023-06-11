@@ -16,6 +16,7 @@ gameLength = random.randint(20, 50)
 classes = ["knight", "mage", "archer"]
 attackList = ["basic", "light", "heavy"]
 enemyList = []
+shopCategories = ["weapons", "potions"]
 chooseClass = str(input("Choose your class: Knight, Mage, Archer:  ")).lower()
 chooseTarget = True
 
@@ -114,10 +115,10 @@ def combatEncounter():
                 elif attack == "heal":
                     healing()
                     attack = input("Player: ").lower()
-
                 else:
                     dialog.attackInvalid()
                     attack = input("Player: ").lower()
+
             while notEnoughEnd:
                 if attack not in attackList:
                     dialog.attackInvalid()
@@ -141,7 +142,7 @@ def combatEncounter():
             notEnoughEnd = True
 
             damageDone = player.attack(attack)
-            damageDone+= player.showPlayerStats("dps")
+            damageDone += player.showPlayerStats("dps")
             print(
                 f"You have {player.showPlayerStats('end')} endurance remaining")
             for enemy in enemyList:
@@ -208,7 +209,42 @@ def merchantEncounter():
             time.sleep(0.1)
         print("\n")
         print("Do you want to buy or sell something? buy / sell / leave / help")
-        buyOrSell = input().lower()
+        buyOrSell = input("Shop action: ").lower()
+
+        if buyOrSell == "buy":
+            player.inventory.addGold(1000)
+            print("What do you want to buy? weapons / potions")
+            category = input("Shop action: ").lower()
+            while category not in shopCategories:
+                print("What do you want to buy? weapons / potions")
+                category = input("Shop action: ").lower()
+            print("Type in the ID of the Item you want to buy")
+            item = input("Shop action: ").lower()
+            try:
+                playerGold = player.inventory.showInventory("gold")
+                newItem = merchant.itemBought(category, item, int(playerGold))
+                if newItem == 0:
+                    print("Not enough gold!")
+                    time.sleep(0.4)
+                else:
+                    player.inventory.addItem(category, newItem)
+                    if category == "weapons":
+                        print(
+                            f"You bought a {newItem['name']} with {newItem['dps']} DPS! ")
+                    else:
+                        print(
+                            f"You bought a {newItem['name']} with {newItem['healing']} healing! ")
+
+            except:
+                print("Something went wrong try again!")
+
+        elif buyOrSell == "sell":
+            None
+        elif buyOrSell == "leave":
+            inShop = False
+        elif buyOrSell == "help":
+            dialog.help()
+            time.sleep(1)
 
 
 dialog.gameRule()
