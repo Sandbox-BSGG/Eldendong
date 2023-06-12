@@ -42,22 +42,22 @@ player = choosePlayer(chooseClass)
 
 def enemyGenerator():
     names = ["rat", "skeleton", "spider", "zombie"]
-    counter = 0
+    xp = 0
     gold = 0
     for i in range(random.randint(1, 3)):
         randonName = names[random.randint(0, 3)]
         match randonName:
-            case"rat":
+            case "rat":
                 enemyList.append(Rat("rat"))
-            case"skeleton":
+            case "skeleton":
                 enemyList.append(Skeleton("skeleton"))
-            case"spider":
+            case "spider":
                 enemyList.append(Spider("spider"))
-            case"zombie":
+            case "zombie":
                 enemyList.append(Zombie("zombie"))
-        counter += 10
+        xp += 10
         gold += 20
-    return counter, gold
+    return xp, gold
 
 
 def healing():
@@ -108,7 +108,6 @@ def combatEncounter():
             attack = input("Player: ").lower()
 
             while attack not in attackList:
-
                 if attack == "help":
                     dialog.help()
                     attack = input("Player: ").lower()
@@ -143,19 +142,21 @@ def combatEncounter():
 
             damageDone = player.attack(attack)
             damageDone += player.showPlayerStats("dps")
-            print(
-                f"You have {player.showPlayerStats('end')} endurance remaining")
+            print(f"You have {player.showPlayerStats('end')} endurance remaining")
             for enemy in enemyList:
                 if target == enemy.showEnemy("id"):
                     enemy.takeDamage(damageDone)
-                    print(f"""You dealt {damageDone} damage!
+                    print(
+                        f"""You dealt {damageDone} damage!
         {enemy.showEnemy("name")} has {enemy.showEnemy("hp")} HP left! 
-                        """)
+                        """
+                    )
                     if enemy.showEnemy("hp") == 0:
                         enemyList.remove(enemy)
             if len(enemyList) == 0:
                 dialog.allDead()
                 print(f"You received {xpAndGold[0]} XP")
+                print(f"You received {xpAndGold[1]} Gold")
                 player.addStat("xp", xpAndGold[0])
                 player.inventory.addGold(xpAndGold[1])
                 print(player.lvlUp())
@@ -165,7 +166,6 @@ def combatEncounter():
                 nextTurn = True
                 inCombat = False
             else:
-
                 if player.showPlayerStats("end") >= 1:
                     turn = input("Do you want to end turn? Y/N: ").lower()
                     if turn == "y" or turn == "yes":
@@ -200,12 +200,14 @@ def merchantEncounter():
         potions = merchant.inventory.showInventory("potions")
         for weapon in weapons:
             print(
-                f"ID: {weapon['id']}  Name: {weapon['name']}  Gold value: {weapon['value']}  Damage: {weapon['dps']}")
+                f"ID: {weapon['id']}  Name: {weapon['name']}  Gold value: {weapon['value']}  Damage: {weapon['dps']}"
+            )
             time.sleep(0.1)
         print("\n")
         for potion in potions:
             print(
-                f"ID: {potion['id']}  Name: {potion['name']}  Gold value: {potion['value']}  Damage: {potion['healing']}")
+                f"ID: {potion['id']}  Name: {potion['name']}  Gold value: {potion['value']}  Damage: {potion['healing']}"
+            )
             time.sleep(0.1)
         print("\n")
         print("Do you want to buy or sell something? buy / sell / leave / help")
@@ -230,21 +232,48 @@ def merchantEncounter():
                     player.inventory.addItem(category, newItem)
                     if category == "weapons":
                         print(
-                            f"You bought a {newItem['name']} with {newItem['dps']} DPS! ")
-                    else:
+                            f"You bought a {newItem['name']} with {newItem['dps']} DPS! "
+                        )
+                        print("Your new Weapon is now equipped")
+                        player.updateDps(newItem["id"])
+                    elif category == "potions":
                         print(
-                            f"You bought a {newItem['name']} with {newItem['healing']} healing! ")
+                            f"You bought a {newItem['name']} with {newItem['healing']} healing! "
+                        )
+                    else:
+                        print("Invalid input")
 
             except:
                 print("Something went wrong try again!")
 
         elif buyOrSell == "sell":
-            None
-        elif buyOrSell == "leave":
-            inShop = False
+            print("What do you want to sell? weapons / potions")
+            category = input("Shop action: ")
+            if category == "weapons":
+                print("These are your weapons")
+                print("Your currently equipped weapon wont be shown in the list")
+                weaponIndex=0
+                for i in player.inventory.showInventory("weapons"):
+                    weaponIndex+=1
+
+                for weapon in player.inventory.showInventory("weapons"):
+                    if weaponIndex == 1:
+                        print("You dont have anything to sell!")
+
+                    elif weapon["dps"] != player.showPlayerStats("dps"):
+                        print(weapon)
+                        
+            elif category == " potions":
+                None
+            else:
+                print("Invalid input")
+
         elif buyOrSell == "help":
             dialog.help()
             time.sleep(1)
+
+        elif buyOrSell == "leave":
+            inShop = False
 
 
 dialog.gameRule()
