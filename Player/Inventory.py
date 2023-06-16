@@ -42,7 +42,7 @@ class Inventory(Exception):
                 f"Gold: {self.inventory['gold']}\nWeapons: {self.inventory['weapons']}\nPotions: {self.inventory['potions']}\n")
         elif type != None and id != None:
             for element in self.inventory[type]:
-                if id == element["id"]:
+                if int(id) == element["id"]:
                     return element
         elif type != None:
             return self.inventory[type]

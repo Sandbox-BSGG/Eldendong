@@ -19,7 +19,7 @@ enemyList = []
 shopCategories = ["weapons", "potions"]
 chooseClass = str(input("Choose your class: Knight, Mage, Archer:  ")).lower()
 chooseTarget = True
-
+itemsToSell = False
 while chooseClass not in classes:
     print("Not a Class")
     chooseClass = input("Choose your class: Knight, Mage, Archer: ").lower()
@@ -142,7 +142,8 @@ def combatEncounter():
 
             damageDone = player.attack(attack)
             damageDone += player.showPlayerStats("dps")
-            print(f"You have {player.showPlayerStats('end')} endurance remaining")
+            print(
+                f"You have {player.showPlayerStats('end')} endurance remaining")
             for enemy in enemyList:
                 if target == enemy.showEnemy("id"):
                     enemy.takeDamage(damageDone)
@@ -252,17 +253,56 @@ def merchantEncounter():
             if category == "weapons":
                 print("These are your weapons")
                 print("Your currently equipped weapon wont be shown in the list")
-                weaponIndex=0
+                weaponIndex = 0
                 for i in player.inventory.showInventory("weapons"):
-                    weaponIndex+=1
+                    weaponIndex += 1
 
                 for weapon in player.inventory.showInventory("weapons"):
-                    if weaponIndex == 1:
-                        print("You dont have anything to sell!")
 
-                    elif weapon["dps"] != player.showPlayerStats("dps"):
+                    if weapon["dps"] != player.showPlayerStats("dps"):
+                        itemsToSell = True
                         print(weapon)
-                        
+
+                if itemsToSell:
+                    print("Type in the id of the Weapon you want to sell!")
+                    sellWeaponId = input("Shop action: ")
+                    try:
+                        sellItem = player.inventory.showInventory(
+                            "weapons", int(sellWeaponId))
+                        player.inventory.addGold(sellItem["value"])
+                        player.inventory.deleteItem("weapons", sellWeaponId)
+                        print(player.inventory.showInventory("gold"))
+                    except:
+                        print("Something went wrong while selling!")
+                else:
+                    print("No weapons to sell")
+
+            elif category == "potions":
+                potionToSell = False
+                potionIndex = 0
+                for i in player.inventory.showInventory("potions"):
+                    potionIndex += 1
+                print("These are your potions")
+                for potion in player.inventory.showInventory("potions"):
+                    if potionIndex > 0:
+                        print(potion)
+                        potionToSell = True
+                if potionToSell:
+                    print("Type in the id of the Potion you want to sell!")
+                    sellPotionId = input("Shop action: ")
+
+                    try:
+                        sellPotion = player.inventory.showInventory(
+                            "potions", int(sellPotionId))
+                        player.inventory.addGold(sellPotion["value"])
+                        player.inventory.deleteItem("potions", sellPotionId)
+                        print(player.inventory.showInventory("gold"))
+
+                    except:
+                        print("Something went wrong while selling!")
+                else:
+                    print("No potions to sell!")
+
             elif category == " potions":
                 None
             else:
