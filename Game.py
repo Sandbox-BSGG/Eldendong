@@ -172,13 +172,13 @@ def combatEncounter():
                     if turn == "y" or turn == "yes":
                         nextTurn = True
                 else:
-                    print("No Endurance turn ended")
+                    dialog.turnOver()
                     nextTurn = True
 
         elif inCombat == True:
             for enemy in enemyList:
                 if player.showPlayerStats("hp") <= 0:
-                    print("YOU DIED")
+                    dialog.dead()
                     inCombat = False
                     break
                 enemyDamage = enemy.attack(attackList[random.randint(0, 2)])
@@ -194,8 +194,7 @@ def merchantEncounter():
     inShop = True
 
     while inShop:
-        print("You have encountered a Merchants shop!")
-        print("IMPORTANT: This Merchant will disappear if you leave his shop")
+        dialog.merchantShop()
         time.sleep(0.3)
         weapons = merchant.inventory.showInventory("weapons")
         potions = merchant.inventory.showInventory("potions")
@@ -211,48 +210,46 @@ def merchantEncounter():
             )
             time.sleep(0.1)
         print("\n")
-        print("Do you want to buy or sell something? buy / sell / leave / help")
+        dialog.merchantAction()
         buyOrSell = input("Shop action: ").lower()
 
         if buyOrSell == "buy":
-            player.inventory.addGold(1000)
-            print("What do you want to buy? weapons / potions")
+            player.inventory.addGold(1000)  # DELETE LATER
+            dialog.merchantBuy()
             category = input("Shop action: ").lower()
             while category not in shopCategories:
-                print("What do you want to buy? weapons / potions")
+                dialog.merchantBuy()
                 category = input("Shop action: ").lower()
-            print("Type in the ID of the Item you want to buy")
+            dialog.idToBuy()
             item = input("Shop action: ").lower()
             try:
                 playerGold = player.inventory.showInventory("gold")
                 newItem = merchant.itemBought(category, item, int(playerGold))
                 if newItem == 0:
-                    print("Not enough gold!")
+                    dialog.noGold()
                     time.sleep(0.4)
                 else:
                     player.inventory.addItem(category, newItem)
+                    player.inventory.subtractGold(newItem["value"])
                     if category == "weapons":
                         print(
                             f"You bought a {newItem['name']} with {newItem['dps']} DPS! "
                         )
-                        print("Your new Weapon is now equipped")
+                        dialog.weaponEqiupped()
                         player.updateDps(newItem["id"])
                     elif category == "potions":
                         print(
                             f"You bought a {newItem['name']} with {newItem['healing']} healing! "
                         )
-                    else:
-                        print("Invalid input")
 
             except:
-                print("Something went wrong try again!")
+                dialog.somethingWentWrong()
 
         elif buyOrSell == "sell":
-            print("What do you want to sell? weapons / potions")
+            dialog.merchantSell()
             category = input("Shop action: ")
             if category == "weapons":
-                print("These are your weapons")
-                print("Your currently equipped weapon wont be shown in the list")
+                dialog.yourWeapons()
                 weaponIndex = 0
                 for i in player.inventory.showInventory("weapons"):
                     weaponIndex += 1
@@ -264,31 +261,32 @@ def merchantEncounter():
                         print(weapon)
 
                 if itemsToSell:
-                    print("Type in the id of the Weapon you want to sell!")
+                    dialog.idToSell()
                     sellWeaponId = input("Shop action: ")
                     try:
                         sellItem = player.inventory.showInventory(
                             "weapons", int(sellWeaponId))
                         player.inventory.addGold(sellItem["value"])
                         player.inventory.deleteItem("weapons", sellWeaponId)
-                        print(player.inventory.showInventory("gold"))
+                        print(
+                            f"You now have {player.inventory.showInventory('gold')} Gold")
                     except:
-                        print("Something went wrong while selling!")
+                        dialog.somethingWentWrong()
                 else:
-                    print("No weapons to sell")
+                    dialog.nothingToSell()
 
             elif category == "potions":
                 potionToSell = False
                 potionIndex = 0
                 for i in player.inventory.showInventory("potions"):
                     potionIndex += 1
-                print("These are your potions")
+                dialog.yourPotions()
                 for potion in player.inventory.showInventory("potions"):
                     if potionIndex > 0:
                         print(potion)
                         potionToSell = True
                 if potionToSell:
-                    print("Type in the id of the Potion you want to sell!")
+                    dialog.idToSell()
                     sellPotionId = input("Shop action: ")
 
                     try:
@@ -296,17 +294,16 @@ def merchantEncounter():
                             "potions", int(sellPotionId))
                         player.inventory.addGold(sellPotion["value"])
                         player.inventory.deleteItem("potions", sellPotionId)
-                        print(player.inventory.showInventory("gold"))
+                        print(
+                            f"You now have {player.inventory.showInventory('gold')} Gold")
 
                     except:
-                        print("Something went wrong while selling!")
+                        dialog.somethingWentWrong()
                 else:
-                    print("No potions to sell!")
+                    dialog.nothingToSell()
 
-            elif category == " potions":
-                None
             else:
-                print("Invalid input")
+                dialog.somethingWentWrong()
 
         elif buyOrSell == "help":
             dialog.help()

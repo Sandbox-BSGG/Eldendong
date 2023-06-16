@@ -105,3 +105,50 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
     def noEnd(self):
         print("Not enough Endurance!")
 
+    def turnOver(self):
+        print("No Endurance turn ended")
+
+    def dead(self):
+        print("YOU DIED")
+
+    def merchantShop(self):
+        print("You have encountered a Merchants shop!")
+        print("IMPORTANT: This Merchant will disappear if you leave his shop")
+
+    def merchantAction(self):
+        print("Do you want to buy or sell something? buy / sell / leave / help")
+
+    def merchantBuy(self):
+        print("What do you want to buy? weapons / potions")
+
+    def merchantSell(self):
+        print("What do you want to sell? weapons / potions")
+
+    def idToBuy(self):
+        print("Type in the ID of the Item you want to buy")
+
+    def idToSell(self):
+        print("Type in the ID of the Item you want to sell")
+
+    def weaponEqiupped(self):
+        print("Your new Weapon is now equipped")
+
+    def noGold(self):
+        print("Not enough gold!")
+    
+    def somethingWentWrong(self):
+        print("Something went wrong try again!")
+    
+    def yourWeapons(self):
+        print("These are your weapons")
+        print("Your currently equipped weapon wont be shown in the list")       
+
+    def nothingToSell(self):
+        print("You have nothing to sell")
+
+    def yourPotions(self):
+        print("These are your potions")
+
+
+     
+

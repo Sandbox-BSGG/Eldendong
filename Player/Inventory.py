@@ -34,7 +34,11 @@ class Inventory(Exception):
 
     def subtractGold(self, value):
         setValue = self.inventory["gold"] - value
-        self.inventory.update({"gold": setValue})
+        if setValue<0:
+            self.inventory.update({"gold": 0})
+        else:
+            self.inventory.update({"gold": setValue})
+
 
     def showInventory(self, type=None, id=None):
         if type == "" or type == None:
