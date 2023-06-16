@@ -59,8 +59,10 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
         This game is a hardocre turned based game,
         Death means everything is lost,
         There are no savefiles,
+        Everytime you move the map changes!
+        Walking back will result in a new room or a new encounter
     
-        Your objective is to defeat the last boss to win the game.
+        Your objective is to reach the boss room and to beat it.
         On your journey to the last boss you will encounter other enemies,
         when fighting these enemies you always start first,
         you can do actions until your endurance is 0 or you wish to end your turn
@@ -135,13 +137,15 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
 
     def noGold(self):
         print("Not enough gold!")
-    
+
     def somethingWentWrong(self):
         print("Something went wrong try again!")
-    
+
     def yourWeapons(self):
         print("These are your weapons")
-        print("Your currently equipped weapon wont be shown in the list")       
+        
+    def WeaponNotShownInShop(self):
+        print("Your currently equipped weapon wont be shown in the list")
 
     def nothingToSell(self):
         print("You have nothing to sell")
@@ -149,6 +153,5 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
     def yourPotions(self):
         print("These are your potions")
 
-
-     
-
+    def equipWeapon(self):
+        print("Type in the id of the weapon you want to equip!")

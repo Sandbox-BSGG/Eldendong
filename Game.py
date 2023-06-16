@@ -108,15 +108,8 @@ def combatEncounter():
             attack = input("Player: ").lower()
 
             while attack not in attackList:
-                if attack == "help":
-                    dialog.help()
-                    attack = input("Player: ").lower()
-                elif attack == "heal":
-                    healing()
-                    attack = input("Player: ").lower()
-                else:
-                    dialog.attackInvalid()
-                    attack = input("Player: ").lower()
+                movementAction(attack)
+                attack = input("Player: ").lower()
 
             while notEnoughEnd:
                 if attack not in attackList:
@@ -214,7 +207,6 @@ def merchantEncounter():
         buyOrSell = input("Shop action: ").lower()
 
         if buyOrSell == "buy":
-            player.inventory.addGold(1000)  # DELETE LATER
             dialog.merchantBuy()
             category = input("Shop action: ").lower()
             while category not in shopCategories:
@@ -248,15 +240,19 @@ def merchantEncounter():
         elif buyOrSell == "sell":
             dialog.merchantSell()
             category = input("Shop action: ")
+            forbiddenId = 0
             if category == "weapons":
-                dialog.yourWeapons()
+                dialog.WeaponNotShownInShop()
                 weaponIndex = 0
                 for i in player.inventory.showInventory("weapons"):
                     weaponIndex += 1
 
                 for weapon in player.inventory.showInventory("weapons"):
 
-                    if weapon["dps"] != player.showPlayerStats("dps"):
+                    if weapon["dps"] == player.showPlayerStats("dps"):
+                        forbiddenId = weapon["id"]
+
+                    elif weapon["dps"] != player.showPlayerStats("dps"):
                         itemsToSell = True
                         print(weapon)
 
@@ -264,12 +260,14 @@ def merchantEncounter():
                     dialog.idToSell()
                     sellWeaponId = input("Shop action: ")
                     try:
-                        sellItem = player.inventory.showInventory(
-                            "weapons", int(sellWeaponId))
-                        player.inventory.addGold(sellItem["value"])
-                        player.inventory.deleteItem("weapons", sellWeaponId)
-                        print(
-                            f"You now have {player.inventory.showInventory('gold')} Gold")
+                        if forbiddenId != sellWeaponId:
+                            sellItem = player.inventory.showInventory(
+                                "weapons", int(sellWeaponId))
+                            player.inventory.addGold(sellItem["value"])
+                            player.inventory.deleteItem(
+                                "weapons", sellWeaponId)
+                            print(
+                                f"You now have {player.inventory.showInventory('gold')} Gold")
                     except:
                         dialog.somethingWentWrong()
                 else:
@@ -318,10 +316,19 @@ time.sleep(0)  # Change to 2 later
 dialog.notifyHelp()
 
 
-while player.showPlayerStats("hp") > 0:
-    dialog.actions()
-    action = str(input("Player: ")).lower()
+def switchWeapon():
+    dialog.yourWeapons()
+    for weapon in player.inventory.showInventory("weapons"):
+        print(weapon)
+    dialog.equipWeapon()
+    equipWeapon = input("Action: ")
+    try:
+        player.updateDps(int(equipWeapon))
+    except:
+        dialog.somethingWentWrong()
 
+
+def movementAction(action):
     if action == "help":
         dialog.help()
 
@@ -333,6 +340,15 @@ while player.showPlayerStats("hp") > 0:
 
     elif action == "inv":
         print(player.inventory.showInventory())
+
+    elif action == "help":
+        dialog.help()
+
+    elif action == "heal":
+        healing()
+
+    elif action == "switch":
+        switchWeapon()
 
     elif action == "w":
         dialog.actionW()
@@ -349,4 +365,10 @@ while player.showPlayerStats("hp") > 0:
         combatEncounter()
     elif action == "stop":
         dialog.stop()
-        break
+        exit()
+
+
+while player.showPlayerStats("hp") > 0:
+    dialog.actions()
+    action = str(input("Player: ")).lower()
+    movementAction(action)
