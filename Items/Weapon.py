@@ -3,7 +3,7 @@ class Weapon:
     idCounter = 0
     attributes = {"id": idCounter, "name": "", "value": 0}
 
-    def __init__(self, type: str, value: int):
+    def __init__(self, type: str, value: int, name=None):
         self.idGenerator()
         self.attributes.update({"dps": value})
         if value-30 <= 0:
@@ -11,7 +11,10 @@ class Weapon:
         else:
             self.attributes.update({"value": value-30})
 
-        return self.attributes.update({"name": type})
+        if name != None:
+            self.attributes.update({"name": name})
+        else:
+            self.attributes.update({"name": type})
 
     def idGenerator(self):
         newId = len(self.usedIds) + 1

@@ -317,7 +317,7 @@ def merchantEncounter():
 
 
 dialog.gameRule()
-time.sleep(0)  # Change to 2 later
+time.sleep(2)
 dialog.notifyHelp()
 
 
@@ -375,7 +375,7 @@ def movementAction(action):
         worldEncounter()
     elif action == "d":
         dialog.actionD()
-        worldEncounter()
+        merchantEncounter()
     elif action == "stop":
         dialog.stop()
         exit()
