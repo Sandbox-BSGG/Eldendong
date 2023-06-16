@@ -203,7 +203,7 @@ def merchantEncounter():
         print("\n")
         for potion in potions:
             print(
-                f"ID: {potion['id']}  Name: {potion['name']}  Gold value: {potion['value']}  Damage: {potion['healing']}"
+                f"ID: {potion['id']}  Name: {potion['name']}  Gold value: {potion['value']}  Healing: {potion['healing']}"
             )
             time.sleep(0.1)
         print("\n")
