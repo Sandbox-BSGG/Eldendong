@@ -155,3 +155,7 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
 
     def equipWeapon(self):
         print("Type in the id of the weapon you want to equip!")
+
+    def enterBoss(self):
+        print("You can now enter the boss arena!")
+        print("Type boss to enter the boss arena")

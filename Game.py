@@ -13,6 +13,7 @@ import time
 dialog = Dialog()
 dialog.intro()
 gameLength = random.randint(20, 50)
+stepper = 0
 classes = ["knight", "mage", "archer"]
 attackList = ["basic", "light", "heavy"]
 enemyList = []
@@ -40,11 +41,15 @@ def choosePlayer(chooseClass):
 player = choosePlayer(chooseClass)
 
 
-def enemyGenerator():
+def enemyGenerator(mobsMin=None, mobsMax=None):
     names = ["rat", "skeleton", "spider", "zombie"]
     xp = 0
     gold = 0
-    for i in range(random.randint(1, 3)):
+    if mobsMin == None and mobsMax == None:
+        mobsMin = 2
+        mobsMax = 5
+
+    for i in range(random.randint(mobsMin, mobsMax)):
         randonName = names[random.randint(0, 3)]
         match randonName:
             case "rat":
@@ -73,13 +78,13 @@ def healing():
             continue
 
 
-def combatEncounter():
+def combatEncounter(mobsMin=None, mobsMax=None):
     chooseTarget = True
     inCombat = True
     nextTurn = False
     notEnoughEnd = True
 
-    xpAndGold = enemyGenerator()
+    xpAndGold = enemyGenerator(mobsMin, mobsMax)
 
     dialog.inCombat()
     time.sleep(0.3)
@@ -328,6 +333,14 @@ def switchWeapon():
         dialog.somethingWentWrong()
 
 
+def worldEncounter():
+    randomNumber = random.randint(0, 20)
+    if randomNumber >= 0 and randomNumber <= 6:
+        combatEncounter()
+    elif randomNumber >= 18:
+        merchantEncounter()
+
+
 def movementAction(action):
     if action == "help":
         dialog.help()
@@ -352,17 +365,17 @@ def movementAction(action):
 
     elif action == "w":
         dialog.actionW()
-        combatEncounter()
+        worldEncounter()
 
     elif action == "a":
         dialog.actionA()
-        merchantEncounter()
+        worldEncounter()
     elif action == "s":
         dialog.actionS()
-        combatEncounter()
+        worldEncounter()
     elif action == "d":
         dialog.actionD()
-        combatEncounter()
+        worldEncounter()
     elif action == "stop":
         dialog.stop()
         exit()
@@ -372,3 +385,10 @@ while player.showPlayerStats("hp") > 0:
     dialog.actions()
     action = str(input("Player: ")).lower()
     movementAction(action)
+    stepper += 1
+    if stepper >= gameLength:
+        dialog.enterBoss()
+    if action == "boss":
+        combatEncounter(10, 20)
+        dialog.stop()
+        exit()
