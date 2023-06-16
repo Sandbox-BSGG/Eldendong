@@ -20,7 +20,6 @@ enemyList = []
 shopCategories = ["weapons", "potions"]
 chooseClass = str(input("Choose your class: Knight, Mage, Archer:  ")).lower()
 chooseTarget = True
-itemsToSell = False
 while chooseClass not in classes:
     print("Not a Class")
     chooseClass = input("Choose your class: Knight, Mage, Archer: ").lower()
@@ -243,6 +242,7 @@ def merchantEncounter():
                 dialog.somethingWentWrong()
 
         elif buyOrSell == "sell":
+            itemsToSell = False
             dialog.merchantSell()
             category = input("Shop action: ")
             forbiddenId = 0
@@ -366,7 +366,6 @@ def movementAction(action):
     elif action == "w":
         dialog.actionW()
         worldEncounter()
-
     elif action == "a":
         dialog.actionA()
         worldEncounter()
@@ -375,7 +374,7 @@ def movementAction(action):
         worldEncounter()
     elif action == "d":
         dialog.actionD()
-        worldEncounter()
+        merchantEncounter()
     elif action == "stop":
         dialog.stop()
         exit()
