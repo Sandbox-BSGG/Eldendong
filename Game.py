@@ -375,7 +375,7 @@ def movementAction(action):
         worldEncounter()
     elif action == "d":
         dialog.actionD()
-        merchantEncounter()
+        worldEncounter()
     elif action == "stop":
         dialog.stop()
         exit()
