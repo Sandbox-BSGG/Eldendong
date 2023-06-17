@@ -99,9 +99,13 @@ def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
         # Looks for player endurance
         if player.showPlayerStats("end") > 1 and nextTurn == False:
             dialog.encounter()
-            for i in range(len(enemyList)):  # lists all enemies
+            dialog.lineBreak()
+            for i in range(len(enemyList)):
+
                 print(enemyList[i].showEnemy("name"))
+                dialog.lineBreak()
             dialog.chooseMob()
+            dialog.lineBreak()
 
             while chooseTarget:  # choosing target
                 target = input("Player Combat: ").lower()
@@ -118,6 +122,7 @@ def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
             chooseTarget = True
             time.sleep(0.3)
             dialog.chooseAttack()
+            dialog.lineBreak()
             attack = input("Player: ").lower()
 
             while attack not in attackList:  # choosing attack
@@ -130,14 +135,17 @@ def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
                     attack = input("Player: ").lower()
 
                 elif attack == "light" and player.showPlayerStats("end") < 2:
+                    dialog.lineBreak()
                     dialog.noEnd()
                     attack = input("Player: ").lower()
 
                 elif attack == "basic" and player.showPlayerStats("end") < 4:
+                    dialog.lineBreak()
                     dialog.noEnd()
                     attack = input("Player: ").lower()
 
                 elif attack == "heavy" and player.showPlayerStats("end") < 8:
+                    dialog.lineBreak()
                     dialog.noEnd()
                     attack = input("Player: ").lower()
 
@@ -155,11 +163,15 @@ def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
                     enemy.takeDamage(damageDone)
                     print(
                         f"You dealt {damageDone} damage!\n{enemy.showEnemy('name')} has {enemy.showEnemy('hp')} HP left!")
-
+                    dialog.lineBreak()
                     if enemy.showEnemy("hp") == 0:
                         enemyList.remove(enemy)
-            if len(enemyList) == 0:  # Reward after every enemy is dead
+
+            if len(enemyList) == 0: # Reward after every enemy is dead
+                dialog.lineBreak()  
+
                 dialog.allDead()
+                dialog.lineBreak()
                 loot(xpAndGold)
                 nextTurn = True
                 inCombat = False
@@ -182,7 +194,9 @@ def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
                     attackList[randomNumber(0, 2)])  # Random attack
                 player.takeDamage(enemyDamage)
                 print(f"{enemy.showEnemy('name')} dealt {enemyDamage} to you!")
+                dialog.lineBreak()
                 print(f"You have {player.showPlayerStats('hp')} HP remaining")
+                dialog.lineBreak()
                 time.sleep(1)
             nextTurn = False  # Player turn next
             player.nextRound()
@@ -213,9 +227,11 @@ def merchantEncounter():  # Shop
 
         if buyOrSell == "buy":  # buy weapon or potions
             dialog.merchantBuy()
+            dialog.lineBreak()
             category = input("Shop action: ").lower()
             while category not in shopCategories:  # checks category
                 dialog.merchantBuy()
+                dialog.lineBreak()
                 category = input("Shop action: ").lower()
             dialog.idToBuy()
             item = input("Shop action: ").lower()
@@ -364,22 +380,29 @@ def movementAction(action):  # Player movement
 
     elif action == "w":
         dialog.actionW()
+        dialog.lineBreak()
         worldEncounter()
 
     elif action == "a":
         dialog.actionA()
+        dialog.lineBreak()
         worldEncounter()
 
     elif action == "s":
         dialog.actionS()
+        dialog.lineBreak()
         worldEncounter()
 
     elif action == "d":
         dialog.actionD()
-        merchantEncounter()
+
+        dialog.lineBreak()
+        worldEncounter()
+
 
     elif action == "stop":
         dialog.stop()
+        dialog.lineBreak()
         exit()
 
 
@@ -407,6 +430,7 @@ dialog.notifyHelp()
 
 while player.showPlayerStats("hp") > 0:
     dialog.actions()
+    dialog.lineBreak()
     action = str(input("Player: ")).lower()
     movementAction(action)
     stepper += 1

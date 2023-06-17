@@ -86,7 +86,7 @@ class Player:
             self.attributes.update({"lvl": self.attributes["lvl"]+1})
             self.addStat("maxEnd", 5)
             self.addStat("maxHp", 10)
-            return f"New level! maximum HP increased to {self.attributes['maxHp']} and maximum Endurance is now {self.attributes['maxEnd']}"
+            return f"New level! maximum HP increased to {self.attributes['maxHp']} and maximum Endurance is now {self.attributes['maxEnd']}\n"
         else:
             xpNeeded = 100-self.attributes["xp"]
-            return f"You need {xpNeeded} XP for the next level"
+            return f"You need {xpNeeded} XP for the next level\n"
