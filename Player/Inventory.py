@@ -12,10 +12,7 @@ class Inventory(Exception):
 
     def addItem(self, key, value):
         newVal = copy.deepcopy(value)
-        if key == "gold":
-            setValue = self.inventory["gold"] + value
-            self.inventory.update({key: setValue})
-        else:
+        if key != "gold":
             self.inventory.setdefault(key, []).append(newVal) # gets values and appends it
 
     def deleteItem(self, key, id):
