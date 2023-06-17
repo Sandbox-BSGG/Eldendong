@@ -25,9 +25,15 @@ def enemyGenerator(mobsMin=None, mobsMax=None):
     names = ["rat", "skeleton", "spider", "zombie"]
     xp = 0
     gold = 0
+    scaling = 0
+    currentLvl = player.showPlayerStats("lvl")
+
+    for lvl in range(int(currentLvl)):
+        scaling += 1
+
     if mobsMin == None and mobsMax == None:
-        mobsMin = 2
-        mobsMax = 5
+        mobsMin = 2 + scaling
+        mobsMax = 5 + scaling
 
     for i in range(random.randint(mobsMin, mobsMax)):
         randonName = names[random.randint(0, 3)]
@@ -58,12 +64,21 @@ def healing():
             continue
 
 
+def loot(xpAndGold):
+    print(f"You received {xpAndGold[0]} XP")
+    print(f"You received {xpAndGold[1]} Gold")
+    player.addStat("xp", xpAndGold[0])
+    player.inventory.addGold(xpAndGold[1])
+    print(player.lvlUp())
+    player.nextRound()
+    player.addStat("hp", 200)
+
+
 def combatEncounter(mobsMin=None, mobsMax=None):
     chooseTarget = True
     inCombat = True
     nextTurn = False
     notEnoughEnd = True
-
     xpAndGold = enemyGenerator(mobsMin, mobsMax)
 
     dialog.inCombat()
@@ -126,22 +141,13 @@ def combatEncounter(mobsMin=None, mobsMax=None):
                 if target == enemy.showEnemy("id"):
                     enemy.takeDamage(damageDone)
                     print(
-                        f"""You dealt {damageDone} damage!
-{enemy.showEnemy("name")} has {enemy.showEnemy("hp")} HP left! 
-                        """
-                    )
+                        f"You dealt {damageDone} damage!\n{enemy.showEnemy('name')} has {enemy.showEnemy('hp')} HP left!")
+
                     if enemy.showEnemy("hp") == 0:
                         enemyList.remove(enemy)
             if len(enemyList) == 0:
                 dialog.allDead()
-                print(f"You received {xpAndGold[0]} XP")
-                print(f"You received {xpAndGold[1]} Gold")
-                player.addStat("xp", xpAndGold[0])
-                player.inventory.addGold(xpAndGold[1])
-                print(player.lvlUp())
-                xpAndGold = 0
-                player.nextRound()
-                player.addStat("hp", 200)
+                loot(xpAndGold)
                 nextTurn = True
                 inCombat = False
             else:
@@ -214,6 +220,7 @@ def merchantEncounter():
                         )
                         dialog.weaponEqiupped()
                         player.updateDps(newItem["id"])
+                        time.sleep(1)
                     elif category == "potions":
                         print(
                             f"You bought a {newItem['name']} with {newItem['healing']} healing! "
@@ -315,6 +322,8 @@ def worldEncounter():
         combatEncounter()
     elif randomNumber >= 18:
         merchantEncounter()
+    else:
+        dialog.noEncounter()
 
 
 def movementAction(action):
@@ -342,20 +351,25 @@ def movementAction(action):
     elif action == "w":
         dialog.actionW()
         worldEncounter()
+
     elif action == "a":
         dialog.actionA()
         worldEncounter()
+
     elif action == "s":
         dialog.actionS()
         worldEncounter()
+
     elif action == "d":
         dialog.actionD()
-        merchantEncounter()
+        worldEncounter()
+
     elif action == "stop":
         dialog.stop()
         exit()
 
 
+# Game
 dialog = Dialog()
 dialog.intro()
 gameLength = random.randint(20, 50)
@@ -385,6 +399,6 @@ while player.showPlayerStats("hp") > 0:
     if stepper >= gameLength:
         dialog.enterBoss()
     if action == "boss":
-        combatEncounter(10, 20)
+        combatEncounter(20, 40)
         dialog.stop()
         exit()

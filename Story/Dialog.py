@@ -159,3 +159,6 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
     def enterBoss(self):
         print("You can now enter the boss arena!")
         print("Type boss to enter the boss arena")
+
+    def noEncounter(self):
+        print("This place seems to be empty, keep walking")
