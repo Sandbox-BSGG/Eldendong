@@ -55,8 +55,8 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
 
     def gameRule(self):
         print("""
-        Welcome to Eldendong.
-        This game is a hardocre turned based game,
+        Welcome to Elden Dong.
+        This game is a hardcore turn based game,
         Death means everything is lost,
         There are no savefiles,
         Everytime you move the map changes!
@@ -70,7 +70,7 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
 
     def actionW(self):
         print("You walked forward")
-
+        
     def actionA(self):
         print("You walked left")
 
@@ -81,7 +81,7 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
         print("You walked right")
 
     def stop(self):
-        print("Thansk for playing and goodbye")
+        print("Thanks for playing and goodbye")
 
     def inCombat(self):
         print("You are now in combat")
@@ -162,3 +162,6 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
 
     def noEncounter(self):
         print("This place seems to be empty, keep walking")
+    
+    def lineBreak(self):
+        print("\n")

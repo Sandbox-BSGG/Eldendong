@@ -84,11 +84,14 @@ def combatEncounter(mobsMin=None, mobsMax=None):
     dialog.inCombat()
     time.sleep(0.3)
     while inCombat:
-        if player.showPlayerStats("end") >= 1 and nextTurn == False:
+        if player.showPlayerStats("end") > 1 and nextTurn == False:
             dialog.encounter()
+            dialog.lineBreak()
             for i in range(len(enemyList)):
                 print(enemyList[i].showEnemy("name"))
+                dialog.lineBreak()
             dialog.chooseMob()
+            dialog.lineBreak()
 
             while chooseTarget:
                 target = input("Player Combat: ").lower()
@@ -105,6 +108,7 @@ def combatEncounter(mobsMin=None, mobsMax=None):
             chooseTarget = True
             time.sleep(0.3)
             dialog.chooseAttack()
+            dialog.lineBreak()
             attack = input("Player: ").lower()
 
             while attack not in attackList:
@@ -117,14 +121,17 @@ def combatEncounter(mobsMin=None, mobsMax=None):
                     attack = input("Player: ").lower()
 
                 elif attack == "light" and player.showPlayerStats("end") < 2:
+                    dialog.lineBreak()
                     dialog.noEnd()
                     attack = input("Player: ").lower()
 
                 elif attack == "basic" and player.showPlayerStats("end") < 4:
+                    dialog.lineBreak()
                     dialog.noEnd()
                     attack = input("Player: ").lower()
 
                 elif attack == "heavy" and player.showPlayerStats("end") < 8:
+                    dialog.lineBreak()
                     dialog.noEnd()
                     attack = input("Player: ").lower()
 
@@ -142,11 +149,13 @@ def combatEncounter(mobsMin=None, mobsMax=None):
                     enemy.takeDamage(damageDone)
                     print(
                         f"You dealt {damageDone} damage!\n{enemy.showEnemy('name')} has {enemy.showEnemy('hp')} HP left!")
-
+                    dialog.lineBreak()
                     if enemy.showEnemy("hp") == 0:
                         enemyList.remove(enemy)
             if len(enemyList) == 0:
+                dialog.lineBreak()  
                 dialog.allDead()
+                dialog.lineBreak()
                 loot(xpAndGold)
                 nextTurn = True
                 inCombat = False
@@ -168,7 +177,9 @@ def combatEncounter(mobsMin=None, mobsMax=None):
                 enemyDamage = enemy.attack(attackList[random.randint(0, 2)])
                 player.takeDamage(enemyDamage)
                 print(f"{enemy.showEnemy('name')} dealt {enemyDamage} to you!")
+                dialog.lineBreak()
                 print(f"You have {player.showPlayerStats('hp')} HP remaining")
+                dialog.lineBreak()
                 time.sleep(1)
             nextTurn = False
             player.nextRound()
@@ -199,9 +210,11 @@ def merchantEncounter():
 
         if buyOrSell == "buy":
             dialog.merchantBuy()
+            dialog.lineBreak()
             category = input("Shop action: ").lower()
             while category not in shopCategories:
                 dialog.merchantBuy()
+                dialog.lineBreak()
                 category = input("Shop action: ").lower()
             dialog.idToBuy()
             item = input("Shop action: ").lower()
@@ -350,22 +363,27 @@ def movementAction(action):
 
     elif action == "w":
         dialog.actionW()
+        dialog.lineBreak()
         worldEncounter()
 
     elif action == "a":
         dialog.actionA()
+        dialog.lineBreak()
         worldEncounter()
 
     elif action == "s":
         dialog.actionS()
+        dialog.lineBreak()
         worldEncounter()
 
     elif action == "d":
         dialog.actionD()
+        dialog.lineBreak()
         worldEncounter()
 
     elif action == "stop":
         dialog.stop()
+        dialog.lineBreak()
         exit()
 
 
@@ -393,6 +411,7 @@ dialog.notifyHelp()
 
 while player.showPlayerStats("hp") > 0:
     dialog.actions()
+    dialog.lineBreak()
     action = str(input("Player: ")).lower()
     movementAction(action)
     stepper += 1
