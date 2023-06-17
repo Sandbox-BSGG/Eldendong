@@ -21,6 +21,10 @@ def choosePlayer(chooseClass):
             return Archer("archer")
 
 
+def randomNumber(start, end):
+    return random.randint(start, end)
+
+
 def enemyGenerator(mobsMin=None, mobsMax=None):
     names = ["rat", "skeleton", "spider", "zombie"]
     xp = 0
@@ -35,17 +39,21 @@ def enemyGenerator(mobsMin=None, mobsMax=None):
         mobsMin = 2 + scaling
         mobsMax = 5 + scaling
 
-    for i in range(random.randint(mobsMin, mobsMax)):
-        randonName = names[random.randint(0, 3)]
+    for i in range(randomNumber(mobsMin, mobsMax)):
+        randonName = names[randomNumber(0, 3)]
         match randonName:
             case "rat":
-                enemyList.append(Rat("rat"))
+                ratNames =  ["squeaky rat", "nimble rodent", "cheeky vermin"]
+                enemyList.append(Rat(ratNames[randomNumber(0,2)]))
             case "skeleton":
-                enemyList.append(Skeleton("skeleton"))
+                skeletonNames = ["creepy skeleton", "bone rattler", "undead warrior"]
+                enemyList.append(Skeleton(skeletonNames[randomNumber(0,2)]))
             case "spider":
-                enemyList.append(Spider("spider"))
+                spiderNames =["venomous spider", "web weaver", "eight-legged menace"]
+                enemyList.append(Spider(spiderNames[randomNumber(0,2)]))
             case "zombie":
-                enemyList.append(Zombie("zombie"))
+                zombieNames = ["rotting corpse", "flesh eater", "undead monstrosity"]
+                enemyList.append(Zombie(zombieNames[randomNumber(0,2)]))
         xp += 10
         gold += 20
     return xp, gold
@@ -165,7 +173,7 @@ def combatEncounter(mobsMin=None, mobsMax=None):
                     dialog.dead()
                     inCombat = False
                     break
-                enemyDamage = enemy.attack(attackList[random.randint(0, 2)])
+                enemyDamage = enemy.attack(attackList[randomNumber(0, 2)])
                 player.takeDamage(enemyDamage)
                 print(f"{enemy.showEnemy('name')} dealt {enemyDamage} to you!")
                 print(f"You have {player.showPlayerStats('hp')} HP remaining")
@@ -317,10 +325,10 @@ def switchWeapon():
 
 
 def worldEncounter():
-    randomNumber = random.randint(0, 20)
-    if randomNumber >= 0 and randomNumber <= 6:
+    worldAction = randomNumber(0, 20)
+    if worldAction >= 0 and worldAction <= 6:
         combatEncounter()
-    elif randomNumber >= 18:
+    elif worldAction >= 18:
         merchantEncounter()
     else:
         dialog.noEncounter()
@@ -372,7 +380,7 @@ def movementAction(action):
 # Game
 dialog = Dialog()
 dialog.intro()
-gameLength = random.randint(20, 50)
+gameLength = randomNumber(20, 50)
 stepper = 0
 classes = ["knight", "mage", "archer"]
 attackList = ["basic", "light", "heavy"]
