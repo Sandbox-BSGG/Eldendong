@@ -308,8 +308,8 @@ def merchantEncounter():
             else:
                 dialog.somethingWentWrong()
 
-        elif buyOrSell == "help":
-            dialog.help()
+        elif buyOrSell not in attackList:
+            movementAction(buyOrSell)
             time.sleep(1)
 
         elif buyOrSell == "leave":
