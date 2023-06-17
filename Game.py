@@ -11,7 +11,7 @@ from Story.Dialog import Dialog
 import time
 
 
-def choosePlayer(chooseClass):
+def choosePlayer(chooseClass):  # Chooses class
     match chooseClass:
         case "knight":
             return Knight("knight")
@@ -25,41 +25,45 @@ def randomNumber(start, end):
     return random.randint(start, end)
 
 
-def enemyGenerator(mobsMin=None, mobsMax=None):
+def enemyGenerator(mobsMin=None, mobsMax=None):  # Generates enemies
     names = ["rat", "skeleton", "spider", "zombie"]
     xp = 0
     gold = 0
+
     scaling = 0
     currentLvl = player.showPlayerStats("lvl")
-
-    for lvl in range(int(currentLvl)):
+    for lvl in range(int(currentLvl)):  # Scales enemies with player lvl
         scaling += 1
 
     if mobsMin == None and mobsMax == None:
         mobsMin = 2 + scaling
         mobsMax = 5 + scaling
 
+    # Random ammount of enemies, and random names
     for i in range(randomNumber(mobsMin, mobsMax)):
         randonName = names[randomNumber(0, 3)]
         match randonName:
             case "rat":
-                ratNames =  ["squeaky rat", "nimble rodent", "cheeky vermin"]
-                enemyList.append(Rat(ratNames[randomNumber(0,2)]))
+                ratNames = ["squeaky rat", "nimble rodent", "cheeky vermin"]
+                enemyList.append(Rat(ratNames[randomNumber(0, 2)]))
             case "skeleton":
-                skeletonNames = ["creepy skeleton", "bone rattler", "undead warrior"]
-                enemyList.append(Skeleton(skeletonNames[randomNumber(0,2)]))
+                skeletonNames = ["creepy skeleton",
+                                 "bone rattler", "undead warrior"]
+                enemyList.append(Skeleton(skeletonNames[randomNumber(0, 2)]))
             case "spider":
-                spiderNames =["venomous spider", "web weaver", "eight-legged menace"]
-                enemyList.append(Spider(spiderNames[randomNumber(0,2)]))
+                spiderNames = ["venomous spider",
+                               "web weaver", "eight-legged menace"]
+                enemyList.append(Spider(spiderNames[randomNumber(0, 2)]))
             case "zombie":
-                zombieNames = ["rotting corpse", "flesh eater", "undead monstrosity"]
-                enemyList.append(Zombie(zombieNames[randomNumber(0,2)]))
+                zombieNames = ["rotting corpse",
+                               "flesh eater", "undead monstrosity"]
+                enemyList.append(Zombie(zombieNames[randomNumber(0, 2)]))
         xp += 10
         gold += 20
     return xp, gold
 
 
-def healing():
+def healing():  # uses potion and heals the player
     print(player.inventory.showInventory("potions"))
     while True:
         potion = input("Choose your potion: ").lower()
@@ -72,7 +76,7 @@ def healing():
             continue
 
 
-def loot(xpAndGold):
+def loot(xpAndGold):  # reward for killing every enemy
     print(f"You received {xpAndGold[0]} XP")
     print(f"You received {xpAndGold[1]} Gold")
     player.addStat("xp", xpAndGold[0])
@@ -82,23 +86,24 @@ def loot(xpAndGold):
     player.addStat("hp", 200)
 
 
-def combatEncounter(mobsMin=None, mobsMax=None):
-    chooseTarget = True
-    inCombat = True
-    nextTurn = False
-    notEnoughEnd = True
-    xpAndGold = enemyGenerator(mobsMin, mobsMax)
+def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
+    chooseTarget = True  # Bool for choosing the target
+    inCombat = True  # bool combat
+    nextTurn = False  # bool for turn of player and enemy
+    notEnoughEnd = True  # bool for player when endurance hits 0
+    xpAndGold = enemyGenerator(mobsMin, mobsMax)  # returns xp and gold
 
     dialog.inCombat()
     time.sleep(0.3)
     while inCombat:
-        if player.showPlayerStats("end") >= 1 and nextTurn == False:
+        # Looks for player endurance
+        if player.showPlayerStats("end") > 1 and nextTurn == False:
             dialog.encounter()
-            for i in range(len(enemyList)):
+            for i in range(len(enemyList)):  # lists all enemies
                 print(enemyList[i].showEnemy("name"))
             dialog.chooseMob()
 
-            while chooseTarget:
+            while chooseTarget:  # choosing target
                 target = input("Player Combat: ").lower()
                 try:
                     target = int(target)
@@ -115,11 +120,11 @@ def combatEncounter(mobsMin=None, mobsMax=None):
             dialog.chooseAttack()
             attack = input("Player: ").lower()
 
-            while attack not in attackList:
+            while attack not in attackList:  # choosing attack
                 movementAction(attack)
                 attack = input("Player: ").lower()
 
-            while notEnoughEnd:
+            while notEnoughEnd:  # looks for player endurance, checks if player has enough endurance for the attack
                 if attack not in attackList:
                     dialog.attackInvalid()
                     attack = input("Player: ").lower()
@@ -153,12 +158,12 @@ def combatEncounter(mobsMin=None, mobsMax=None):
 
                     if enemy.showEnemy("hp") == 0:
                         enemyList.remove(enemy)
-            if len(enemyList) == 0:
+            if len(enemyList) == 0:  # Reward after every enemy is dead
                 dialog.allDead()
                 loot(xpAndGold)
                 nextTurn = True
                 inCombat = False
-            else:
+            else:  # Player can end turn
                 if player.showPlayerStats("end") >= 1:
                     turn = input("Do you want to end turn? Y/N: ").lower()
                     if turn == "y" or turn == "yes":
@@ -167,22 +172,23 @@ def combatEncounter(mobsMin=None, mobsMax=None):
                     dialog.turnOver()
                     nextTurn = True
 
-        elif inCombat == True:
+        elif inCombat == True:  # Enemies now attack the player
             for enemy in enemyList:
-                if player.showPlayerStats("hp") <= 0:
+                if player.showPlayerStats("hp") <= 0:  # Dead if 0
                     dialog.dead()
                     inCombat = False
                     break
-                enemyDamage = enemy.attack(attackList[randomNumber(0, 2)])
+                enemyDamage = enemy.attack(
+                    attackList[randomNumber(0, 2)])  # Random attack
                 player.takeDamage(enemyDamage)
                 print(f"{enemy.showEnemy('name')} dealt {enemyDamage} to you!")
                 print(f"You have {player.showPlayerStats('hp')} HP remaining")
                 time.sleep(1)
-            nextTurn = False
+            nextTurn = False  # Player turn next
             player.nextRound()
 
 
-def merchantEncounter():
+def merchantEncounter():  # Shop
     inShop = True
 
     while inShop:
@@ -190,13 +196,13 @@ def merchantEncounter():
         time.sleep(0.3)
         weapons = merchant.inventory.showInventory("weapons")
         potions = merchant.inventory.showInventory("potions")
-        for weapon in weapons:
+        for weapon in weapons:  # prints weapons
             print(
                 f"ID: {weapon['id']}  Name: {weapon['name']}  Gold value: {weapon['value']}  Damage: {weapon['dps']}"
             )
             time.sleep(0.1)
         print("\n")
-        for potion in potions:
+        for potion in potions:  # prints potions
             print(
                 f"ID: {potion['id']}  Name: {potion['name']}  Gold value: {potion['value']}  Healing: {potion['healing']}"
             )
@@ -205,21 +211,21 @@ def merchantEncounter():
         dialog.merchantAction()
         buyOrSell = input("Shop action: ").lower()
 
-        if buyOrSell == "buy":
+        if buyOrSell == "buy":  # buy weapon or potions
             dialog.merchantBuy()
             category = input("Shop action: ").lower()
-            while category not in shopCategories:
+            while category not in shopCategories:  # checks category
                 dialog.merchantBuy()
                 category = input("Shop action: ").lower()
             dialog.idToBuy()
             item = input("Shop action: ").lower()
-            try:
+            try:  # Try to buy the item
                 playerGold = player.inventory.showInventory("gold")
                 newItem = merchant.itemBought(category, item, int(playerGold))
-                if newItem == 0:
+                if newItem == 0:  # Player has no gold
                     dialog.noGold()
                     time.sleep(0.4)
-                else:
+                else:  # buy item
                     player.inventory.addItem(category, newItem)
                     player.inventory.subtractGold(newItem["value"])
                     if category == "weapons":
@@ -227,6 +233,7 @@ def merchantEncounter():
                             f"You bought a {newItem['name']} with {newItem['dps']} DPS! "
                         )
                         dialog.weaponEqiupped()
+                        # equips the new weapon
                         player.updateDps(newItem["id"])
                         time.sleep(1)
                     elif category == "potions":
@@ -234,25 +241,24 @@ def merchantEncounter():
                             f"You bought a {newItem['name']} with {newItem['healing']} healing! "
                         )
 
-            except:
+            except:  # throws error
                 dialog.somethingWentWrong()
 
-        elif buyOrSell == "sell":
-            itemsToSell = False
+        elif buyOrSell == "sell":  # sell weapons or potions
+            itemsToSell = False  # Bool if you have something to sell
             dialog.merchantSell()
             category = input("Shop action: ")
-            forbiddenId = 0
+            forbiddenId = 0  # Currently equipped weapon
             if category == "weapons":
                 dialog.WeaponNotShownInShop()
-                weaponIndex = 0
-                for i in player.inventory.showInventory("weapons"):
-                    weaponIndex += 1
 
                 for weapon in player.inventory.showInventory("weapons"):
 
+                    # Checks for your current weapon
                     if weapon["dps"] == player.showPlayerStats("dps"):
                         forbiddenId = weapon["id"]
 
+                    # Your other weapons
                     elif weapon["dps"] != player.showPlayerStats("dps"):
                         itemsToSell = True
                         print(weapon)
@@ -276,7 +282,7 @@ def merchantEncounter():
 
             elif category == "potions":
                 potionToSell = False
-                potionIndex = 0
+                potionIndex = 0  # Looks if you have more than 0 potions
                 for i in player.inventory.showInventory("potions"):
                     potionIndex += 1
                 dialog.yourPotions()
@@ -312,7 +318,7 @@ def merchantEncounter():
             time.sleep(1)
 
 
-def switchWeapon():
+def switchWeapon():  # Switch your weapon
     dialog.yourWeapons()
     for weapon in player.inventory.showInventory("weapons"):
         print(weapon)
@@ -324,17 +330,17 @@ def switchWeapon():
         dialog.somethingWentWrong()
 
 
-def worldEncounter():
+def worldEncounter():  # Generates random world event
     worldAction = randomNumber(0, 20)
     if worldAction >= 0 and worldAction <= 6:
-        combatEncounter()
+        combatEncounter()  # Combat encounter
     elif worldAction >= 18:
-        merchantEncounter()
+        merchantEncounter()  # Shop
     else:
         dialog.noEncounter()
 
 
-def movementAction(action):
+def movementAction(action):  # Player movement
     if action == "help":
         dialog.help()
 
@@ -370,7 +376,7 @@ def movementAction(action):
 
     elif action == "d":
         dialog.actionD()
-        worldEncounter()
+        merchantEncounter()
 
     elif action == "stop":
         dialog.stop()
