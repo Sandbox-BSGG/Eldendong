@@ -16,7 +16,7 @@ class Inventory(Exception):
             setValue = self.inventory["gold"] + value
             self.inventory.update({key: setValue})
         else:
-            self.inventory.setdefault(key, []).append(newVal)
+            self.inventory.setdefault(key, []).append(newVal) # gets values and appends it
 
     def deleteItem(self, key, id):
         if key != "gold":

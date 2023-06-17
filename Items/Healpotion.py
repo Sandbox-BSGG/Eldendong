@@ -3,7 +3,7 @@ class HealthPotion:
     idCounter = 0
 
     def __init__(self, level=1):
-        self.attributes = {"id": self.idCounter, "name": "potion", "healing": 0, "value": 0}
+        self.attributes = {"id": self.idCounter, "name": "potion", "healing": 0, "value": 0} # sets default values
         self.idGenerator()
         match level:
             case 1:
@@ -21,7 +21,7 @@ class HealthPotion:
                 self.attributes.update({"name": "Potion LVL 3"})
                 self.attributes.update({"value": 100})
 
-    def idGenerator(self):
+    def idGenerator(self): # generates id
         newId = len(self.usedIds) + 1
         while newId in self.usedIds:
             newId = len(self.usedIds) + 1
@@ -29,10 +29,10 @@ class HealthPotion:
         self.usedIds.append(newId)
         self.attributes["id"] = newId
 
-    def showPotion(self):
+    def showPotion(self): # returns potion
         stats = self.attributes
         return stats
 
-    def deleteObject(self):
+    def deleteObject(self): #deletes potion
         self.attributes = {"id": self.idCounter,
                            "name": "potion", "healing": 0}

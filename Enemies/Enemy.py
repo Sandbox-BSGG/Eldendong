@@ -16,7 +16,7 @@ class Enemy:
         self.idGenerator()
         self.attributes.update({"name": f"{name} {self.idCounter}"})
 
-    def idGenerator(self):
+    def idGenerator(self): # Generates id
         newId = len(self.usedIds)
         while newId in self.usedIds:
             newId = len(self.usedIds) + 1
@@ -24,20 +24,17 @@ class Enemy:
         self.usedIds.append(newId)
         self.attributes["id"] = newId
 
-    def showEnemy(self, type=None):
+    def showEnemy(self, type=None): # returns enemy attributes
         if type == "" or type == None:
             return (self.attributes)
         else:
             return (self.attributes[type])
 
-    def takeDamage(self, damage: int):
+    def takeDamage(self, damage: int): # enemy takes damage
         newHP = self.attributes["hp"] - damage
         if damage> newHP:
             return self.attributes.update({"hp": 0}) 
         return self.attributes.update({"hp": newHP})
 
-    def randInt(self, start=0, end=10):
+    def randInt(self, start=0, end=10): # random number
         return random.randint(start, end)
-
-    def nextRound(self):
-        self.attributes.update({"end": 10})
