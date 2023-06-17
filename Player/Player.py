@@ -28,7 +28,7 @@ class Player:
         self.inventory.addItem("potions", self.starterPotion.showPotion())
         self.updateDps(self.starterWeapon.showWeaponStats("id"))
 
-    def usePotion(self, id):
+    def usePotion(self, id): # uses potion and  delets it
         getPotion = self.inventory.showInventory("potions", int(id))
         if getPotion != None:
 
@@ -44,7 +44,7 @@ class Player:
         else:
             print("No potion found!")
 
-    def updateDps(self, id):
+    def updateDps(self, id): # equips new weapon
         getWeapon = self.inventory.showInventory("weapons", id)
         self.attributes.update({"dps": getWeapon["dps"]})
 

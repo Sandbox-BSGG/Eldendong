@@ -11,7 +11,7 @@ class Merchant:
         self.weaponTypes=["sword","staff","bow"]
         self.godWeaponType=None
         for i in range(10):
-            match clazz:
+            match clazz: # looks for class and adds weapons
                 case "knight":
                     self.shopWeapon = Weapon(self.weaponTypes[0], self.numGenerator())
                     self.godWeaponType=0
@@ -22,7 +22,7 @@ class Merchant:
                     self.shopWeapon = Weapon(self.weaponTypes[2], self.numGenerator())
                     self.godWeaponType=1
 
-            if self.shopWeapon != None:
+            if self.shopWeapon != None: # null check
                 self.inventory.addItem(
                     "weapons", self.shopWeapon.showWeaponStats())
         for i in range(10):
@@ -32,7 +32,7 @@ class Merchant:
         self.inventory.addItem("weapons",self.godWeapon.showWeaponStats())
 
 
-    def itemBought(self, key, id, gold):
+    def itemBought(self, key, id, gold): # player buys item and deletes it
         self.boughtItem = self.inventory.showInventory(key, int(id))
         if gold<self.boughtItem["value"]:
             return 0

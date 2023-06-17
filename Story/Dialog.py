@@ -162,6 +162,6 @@ EEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLDDDDDDDDDDDDD      EEEEEEEEEEEEEEE
 
     def noEncounter(self):
         print("This place seems to be empty, keep walking")
-    
+
     def lineBreak(self):
         print("\n")
