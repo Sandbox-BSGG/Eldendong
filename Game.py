@@ -167,8 +167,8 @@ def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
                     if enemy.showEnemy("hp") == 0:
                         enemyList.remove(enemy)
 
-            if len(enemyList) == 0: # Reward after every enemy is dead
-                dialog.lineBreak()  
+            if len(enemyList) == 0:  # Reward after every enemy is dead
+                dialog.lineBreak()
 
                 dialog.allDead()
                 dialog.lineBreak()
@@ -186,10 +186,7 @@ def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
 
         elif inCombat == True:  # Enemies now attack the player
             for enemy in enemyList:
-                if player.showPlayerStats("hp") <= 0:  # Dead if 0
-                    dialog.dead()
-                    inCombat = False
-                    break
+
                 enemyDamage = enemy.attack(
                     attackList[randomNumber(0, 2)])  # Random attack
                 player.takeDamage(enemyDamage)
@@ -198,6 +195,10 @@ def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
                 print(f"You have {player.showPlayerStats('hp')} HP remaining")
                 dialog.lineBreak()
                 time.sleep(1)
+                if player.showPlayerStats("hp") <= 0:  # Dead if 0
+                    dialog.dead()
+                    inCombat = False
+                    break
             nextTurn = False  # Player turn next
             player.nextRound()
 
@@ -398,7 +399,6 @@ def movementAction(action):  # Player movement
 
         dialog.lineBreak()
         worldEncounter()
-
 
     elif action == "stop":
         dialog.stop()
