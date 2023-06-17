@@ -10,22 +10,6 @@ from Player.Mage import Mage
 from Story.Dialog import Dialog
 import time
 
-dialog = Dialog()
-dialog.intro()
-gameLength = random.randint(20, 50)
-stepper = 0
-classes = ["knight", "mage", "archer"]
-attackList = ["basic", "light", "heavy"]
-enemyList = []
-shopCategories = ["weapons", "potions"]
-chooseClass = str(input("Choose your class: Knight, Mage, Archer:  ")).lower()
-chooseTarget = True
-while chooseClass not in classes:
-    print("Not a Class")
-    chooseClass = input("Choose your class: Knight, Mage, Archer: ").lower()
-
-merchant = Merchant(chooseClass)
-
 
 def choosePlayer(chooseClass):
     match chooseClass:
@@ -35,9 +19,6 @@ def choosePlayer(chooseClass):
             return Mage("mage")
         case "archer":
             return Archer("archer")
-
-
-player = choosePlayer(chooseClass)
 
 
 def enemyGenerator(mobsMin=None, mobsMax=None):
@@ -146,7 +127,7 @@ def combatEncounter(mobsMin=None, mobsMax=None):
                     enemy.takeDamage(damageDone)
                     print(
                         f"""You dealt {damageDone} damage!
-        {enemy.showEnemy("name")} has {enemy.showEnemy("hp")} HP left! 
+{enemy.showEnemy("name")} has {enemy.showEnemy("hp")} HP left! 
                         """
                     )
                     if enemy.showEnemy("hp") == 0:
@@ -308,17 +289,12 @@ def merchantEncounter():
             else:
                 dialog.somethingWentWrong()
 
-        elif buyOrSell not in attackList:
-            movementAction(buyOrSell)
-            time.sleep(1)
-
         elif buyOrSell == "leave":
             inShop = False
 
-
-dialog.gameRule()
-time.sleep(2)
-dialog.notifyHelp()
+        elif buyOrSell not in attackList:
+            movementAction(buyOrSell)
+            time.sleep(1)
 
 
 def switchWeapon():
@@ -379,6 +355,27 @@ def movementAction(action):
         dialog.stop()
         exit()
 
+
+dialog = Dialog()
+dialog.intro()
+gameLength = random.randint(20, 50)
+stepper = 0
+classes = ["knight", "mage", "archer"]
+attackList = ["basic", "light", "heavy"]
+enemyList = []
+shopCategories = ["weapons", "potions"]
+chooseClass = str(input("Choose your class: Knight, Mage, Archer:  ")).lower()
+chooseTarget = True
+
+while chooseClass not in classes:
+    print("Not a Class")
+    chooseClass = input("Choose your class: Knight, Mage, Archer: ").lower()
+
+merchant = Merchant(chooseClass)
+player = choosePlayer(chooseClass)
+dialog.gameRule()
+time.sleep(2)
+dialog.notifyHelp()
 
 while player.showPlayerStats("hp") > 0:
     dialog.actions()

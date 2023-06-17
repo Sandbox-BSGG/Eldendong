@@ -51,7 +51,7 @@ class Player:
     def showPlayerStats(self, type=None):
         if type == "" or type == None:
             return (
-                f"HP: {self.attributes['hp']}\nEndurance: {self.attributes['end']}\nDPS: {self.attributes['dps']}\n"
+                f"LVL: {self.attributes['lvl']}\nHP: {self.attributes['hp']}\nEndurance: {self.attributes['end']}\nDPS: {self.attributes['dps']}\n"
             )
         else:
             return self.attributes[type]
