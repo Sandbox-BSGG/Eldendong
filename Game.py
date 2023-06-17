@@ -403,6 +403,7 @@ def movementAction(action):  # Player movement
     elif action == "stop":
         dialog.stop()
         dialog.lineBreak()
+        time.sleep(3)
         exit()
 
 
@@ -439,4 +440,5 @@ while player.showPlayerStats("hp") > 0:
     if action == "boss":
         combatEncounter(20, 40)
         dialog.stop()
+        time.sleep(3)
         exit()
