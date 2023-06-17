@@ -198,6 +198,7 @@ def combatEncounter(mobsMin=None, mobsMax=None):  # Combat systen of the game
                 if player.showPlayerStats("hp") <= 0:  # Dead if 0
                     dialog.dead()
                     inCombat = False
+                    time.sleep(3)
                     break
             nextTurn = False  # Player turn next
             player.nextRound()
