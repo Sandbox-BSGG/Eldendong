@@ -8,8 +8,8 @@ class Player:
 
     def __init__(self, playerClass: str):
         self.attributes = {
-            "hp": 50,
-            "maxHp": 50,
+            "hp": 100,
+            "maxHp": 100,
             "end": 10,
             "dps": 0,
             "lvl": 1,

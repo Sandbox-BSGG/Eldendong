@@ -9,7 +9,7 @@ class Enemy:
     def __init__(self, name=""):
         self.attributes = {
             "id": self.idCounter,
-            "hp": 10,
+            "hp": 50,
             "end": 10,
             }
 

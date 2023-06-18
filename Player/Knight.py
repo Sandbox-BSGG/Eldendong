@@ -6,7 +6,7 @@ class Knight(Player):
     def attack(self, type: str):
         match type:
             case "basic":
-                damageDone = self.randInt(3, 10)
+                damageDone = self.randInt(5, 15)
                 newEnd = self.attributes["end"]-4
                 if newEnd <= 0:
                     self.attributes.update({"end": 0})
@@ -14,7 +14,7 @@ class Knight(Player):
                     self.attributes.update({"end": newEnd})
                 return damageDone
             case "light":
-                damageDone = self.randInt(3, 5)
+                damageDone = self.randInt(1, 5)
                 newEnd = self.attributes["end"]-2
                 if newEnd <= 0:
                     self.attributes.update({"end": 0})
@@ -23,7 +23,7 @@ class Knight(Player):
                 return damageDone
             case "heavy":
                 damageDone = self.randInt(15, 30)
-                newEnd = self.attributes["end"]-8
+                newEnd = self.attributes["end"]-6
                 if newEnd <= 0:
                     self.attributes.update({"end": 0})
                 else:
